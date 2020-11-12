@@ -12,7 +12,6 @@ namespace TicTacToe
         {
             Game game = new Game();
             
-            TurnResult result = TurnResult.Invalid;
             Point point;
 
             do
@@ -21,27 +20,24 @@ namespace TicTacToe
                 do
                 {
                     Console.WriteLine("x-position: ");
-                    point.x = (byte)EingabePosition();
+                    point.x = (byte)enterPosition();
                 } while (point.x == 3);
                 do
                 {
                     Console.WriteLine("y-Position: ");
-                    point.y = (byte)EingabePosition();
+                    point.y = (byte)enterPosition();
                 } while (point.y == 3);
 
-                result = game.turn(point);
-
-                if (result == TurnResult.Invalid)
+                if (game.turn(point) == TurnResult.Invalid)
                 {
                     Console.WriteLine("invalid!");
                     Console.ReadLine();
                 }
 
-            } while (result != TurnResult.Win && result != TurnResult.Tie);
+            } while (game.turnNumber < 10);
 
-            if (result == TurnResult.Win) Console.WriteLine("win!");
-            else Console.WriteLine("tie!");
-
+            if (game.turnNumber == 10) Console.WriteLine("tie!");
+            else Console.WriteLine("win!");
 
             void Draw(FieldState[,] board)
             {
@@ -69,7 +65,7 @@ namespace TicTacToe
                 Console.WriteLine("\n\t    -------------\n\n");
             }
 
-            int EingabePosition()
+            int enterPosition()
             {
                 int Eingabe = 0;
                 try

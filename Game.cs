@@ -19,29 +19,23 @@
             }
             public TurnResult turn(Point point)
             {
-                TurnResult result = TurnResult.Valid;
-                FieldState playerFieldState = FieldState.X;
-
-                if (currentPlayerID == true) playerFieldState = FieldState.O;
-
                 if (board[point.y, point.x] != FieldState.Empty)
                 {
                     return TurnResult.Invalid;
                 }
 
-                board[point.y, point.x] = playerFieldState;
+                board[point.y, point.x] = (currentPlayerID ? FieldState.X : FieldState.O);
 
-                if (checkWin(playerFieldState))
+                if (checkWin(board[point.y, point.x]))
                 {
-                    result = TurnResult.Win;
+                    turnNumber = 11;
+                    return TurnResult.Win;
                 }
 
                 turnNumber++;
 
-                if (turnNumber == 10) return TurnResult.Tie;
-
                 currentPlayerID = !currentPlayerID;
-                return result;
+                return TurnResult.Valid;
             }
 
             private bool checkWin(FieldState playerFieldState)
