@@ -38,7 +38,7 @@
                 return TurnResult.Valid;
             }
 
-            private bool checkWin(FieldState playerFieldState)
+            private bool checkWin(FieldState playerFieldState, int checkValue = 3)
             {
                 int counterX = 0;                     // für den horizontalen Test  
                 int counterY = 0;                     // für den vertikalen Test
@@ -70,7 +70,7 @@
                         {
                             counterDiag2++;       // Anzahl der gleichen Steine in dieser Diagonalen um 1 erhöhen
                         }
-                        if (counterX == 3 || counterY == 3 || counterDiag1 == 3 || counterDiag2 == 3) // Sobald irgendwo 3 gleiche Steine gezählt wurden, dann ...
+                        if (counterX == checkValue || counterY == checkValue || counterDiag1 == checkValue || counterDiag2 == checkValue) // Sobald irgendwo 3 gleiche Steine gezählt wurden, dann ...
                         {
                             return true;         // raus aus der Funktion, Gewinner steht fest, kein weiteres Prüfen notwendig
                         }
@@ -78,17 +78,54 @@
                 }
                 return false;
             }
-            public void DrawHint (bool player)
+            public string DrawHint()
             {
+                Point hint;
+
+                hint = GetHint(3, currentPlayerID); // prüfe ob Spieler gewinnen kann
+                if (hint.x != 9)
+                    return ($"Hint: " + hint.x + ", " + hint.y);
+
+                hint = GetHint(3, !currentPlayerID); // prüfe ob der Gegner gewinnen kann
+                if (hint.x != 9)
+                    return ($"Hint: " + hint.x + ", " + hint.y);
+
+                hint = GetHint(2, currentPlayerID); // prüfe ob Spieler einen zweiten Stein in eine Reihe legen kann
+                if (hint.x != 9)
+                    return ($"Hint: " + hint.x + ", " + hint.y);
+
+                return "Hint: choose an empty field!"; // kein Hint vorhanden
             }
-            public byte GetHint(bool player)
+            public Point GetHint(int checkValue, bool playerID)
             {
-                return 1;
+                Point returnHint = new Point();
+
+                for (byte y = 0; y < 3; y++)
+                {
+                    for (byte x = 0; x < 3; x++)
+                    {
+                        if (board[y, x] == FieldState.Empty)
+                        {
+                            board[y, x] = (playerID ? FieldState.X : FieldState.O);
+
+                            if (checkWin(board[y, x] = (playerID ? FieldState.X : FieldState.O), checkValue))
+                            {
+                                returnHint.x = x;
+                                returnHint.y = y;
+                                board[y, x] = FieldState.Empty;
+                                return returnHint;
+                            }
+                            board[y, x] = FieldState.Empty;
+                        }
+                    }
+                }
+                returnHint.x = 9;
+                return returnHint;
             }
             public void ResetBoard()
             {
 
-            }
+            }   
         }
     }
 }

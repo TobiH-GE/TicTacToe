@@ -10,25 +10,27 @@ namespace TicTacToe
         }
         static void Main(string[] args)
         {
-            Game game = new Game();
+            Game game = new Game();           
+            Point input;
             
-            Point point;
 
             do
             {
                 Draw(game.board);
                 do
                 {
-                    Console.WriteLine("x-position: ");
-                    point.x = (byte)enterPosition();
-                } while (point.x == 3);
+                    Console.WriteLine("enter [0,1,2] or [9] for hint ... x-position: ");
+                    input.x = (byte)enterPosition();
+                    if (input.x == 9) Console.WriteLine(game.DrawHint());
+                } while (input.x == 3 || input.x == 9);
                 do
                 {
-                    Console.WriteLine("y-Position: ");
-                    point.y = (byte)enterPosition();
-                } while (point.y == 3);
+                    Console.WriteLine("enter [0,1,2] or [9] for hint ... y-position: ");
+                    input.y = (byte)enterPosition();
+                    if (input.y == 9) Console.WriteLine(game.DrawHint());
+                } while (input.y == 3 || input.y == 9);
 
-                if (game.turn(point) == TurnResult.Invalid)
+                if (game.turn(input) == TurnResult.Invalid)
                 {
                     Console.WriteLine("invalid!");
                     Console.ReadLine();
@@ -43,7 +45,7 @@ namespace TicTacToe
             {
                 Console.Clear();
                 Console.WriteLine("TicTacToe by TobiH\n");
-                Console.WriteLine("round {0}, {1} it's your turn!\n", game.turnNumber, game.playerNames[Convert.ToInt32(game.currentPlayerID)]);
+                Console.WriteLine("round {0}, {1} [{2}] it's your turn!\n", game.turnNumber, game.playerNames[Convert.ToInt32(game.currentPlayerID)], (game.currentPlayerID ? FieldState.X : FieldState.O));
 
                 Console.Write("\n\n\t      0   1   2  ");
                 for (int y = 0; y < 3; y++)
@@ -77,7 +79,7 @@ namespace TicTacToe
                     Console.WriteLine("Error, try again.");
                     return 3;
                 }
-                if (Eingabe >= 0 && Eingabe <= 2)
+                if ((Eingabe >= 0 && Eingabe <= 2) || Eingabe == 9)
                     return Eingabe;
                 else
                 {
