@@ -4,14 +4,6 @@ namespace TicTacToe
 {
     partial class Program                               // *** TicTacToe von TobiH ***
     {
-        enum FieldState
-        {
-            E, X, O, H
-        }
-        enum TurnResult
-        {
-            Valid, Invalid, Tie, Win
-        }
         struct Point
         {
             public byte x, y;
@@ -28,37 +20,53 @@ namespace TicTacToe
                 Draw(game.board);
                 do
                 {
-                    Console.WriteLine("Bitte X-Position eingeben: ");
+                    Console.WriteLine("x-position: ");
                     point.x = (byte)EingabePosition();
                 } while (point.x == 3);
                 do
                 {
-                    Console.WriteLine("Bitte Y-Position eingeben: ");
+                    Console.WriteLine("y-Position: ");
                     point.y = (byte)EingabePosition();
                 } while (point.y == 3);
 
                 result = game.turn(point);
 
+                if (result == TurnResult.Invalid)
+                {
+                    Console.WriteLine("invalid!");
+                    Console.ReadLine();
+                }
+
             } while (result != TurnResult.Win && result != TurnResult.Tie);
 
-            if (result == TurnResult.Win) Console.WriteLine("gewonnen!");
-            else Console.WriteLine("unentschieden!");
+            if (result == TurnResult.Win) Console.WriteLine("win!");
+            else Console.WriteLine("tie!");
 
 
             void Draw(FieldState[,] board)
             {
                 Console.Clear();
-                Console.WriteLine("TicTacToe von TobiH");
-                Console.WriteLine("Runde {0}, Spieler {1} ist an der Reihe. Mach dein Spielzug.\n", game.turnNumber, game.currentPlayerID);
+                Console.WriteLine("TicTacToe by TobiH\n");
+                Console.WriteLine("round {0}, {1} it's your turn!\n", game.turnNumber, game.playerNames[Convert.ToInt32(game.currentPlayerID)]);
 
-                Console.WriteLine("\n\n\t    0   1   2  ");
-                Console.WriteLine("\t  -------------");
-                Console.WriteLine("\t0 | {0} | {1} | {2} |", board[0, 0], board[0, 1], board[0, 2]);
-                Console.WriteLine("\t  -------------");
-                Console.WriteLine("\t1 | {0} | {1} | {2} |", board[1, 0], board[1, 1], board[1, 2]);
-                Console.WriteLine("\t  -------------");
-                Console.WriteLine("\t2 | {0} | {1} | {2} |", board[2, 0], board[2, 1], board[2, 2]);
-                Console.WriteLine("\t  -------------\n\n");
+                Console.Write("\n\n\t      0   1   2  ");
+                for (int y = 0; y < 3; y++)
+                {
+                    Console.Write("\n\t    -------------\n\t"+y+"   ");
+                    for (int x = 0; x < 3; x++)
+                    {
+                        if(board[y, x] == FieldState.Empty)
+                        {
+                            Console.Write("|   ");
+                        }
+                        else
+                        {
+                            Console.Write("| " + board[y, x] + " ");
+                        }
+                    }
+                    Console.Write("|");
+                }
+                Console.WriteLine("\n\t    -------------\n\n");
             }
 
             int EingabePosition()
@@ -70,14 +78,14 @@ namespace TicTacToe
                 }
                 catch
                 {
-                    Console.WriteLine("Falsche Eingabe, bitte erneut versuchen.");
+                    Console.WriteLine("Error, try again.");
                     return 3;
                 }
                 if (Eingabe >= 0 && Eingabe <= 2)
                     return Eingabe;
                 else
                 {
-                    Console.WriteLine("Nur Zahlen von 0 - 2 sind erlaubt, bitte erneut versuchen.");
+                    Console.WriteLine("only 0 - 2 is allowed, try again.");
                     return 3;
                 }
             }
