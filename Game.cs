@@ -82,83 +82,53 @@
             {
                 Point hint;
 
-                hint = GetHint(3, currentPlayerID); // prüfe ob Spieler gewinnen kann
+                hint = GetHint(3, (currentPlayerID ? FieldState.X : FieldState.O)); // prüfe ob Spieler gewinnen kann
                 if (hint.x != 9)
                     return ($"Hint: " + hint.x + ", " + hint.y);
 
-                hint = GetHint(3, !currentPlayerID); // prüfe ob der Gegner gewinnen kann
+                hint = GetHint(3, (!currentPlayerID ? FieldState.X : FieldState.O)); // prüfe ob der Gegner gewinnen kann
                 if (hint.x != 9)
                     return ($"Hint: " + hint.x + ", " + hint.y);
 
-                hint = GetHint(2, currentPlayerID); // prüfe ob Spieler einen zweiten Stein in eine Reihe legen kann
+                hint = GetHint(2, (currentPlayerID ? FieldState.X : FieldState.O)); // prüfe ob Spieler einen zweiten Stein in eine Reihe legen kann
                 if (hint.x != 9)
                     return ($"Hint: " + hint.x + ", " + hint.y);
 
                 return "Hint: choose an empty field!"; // kein Hint vorhanden
             }
 
-            public Point ForXY(int checkValue, bool playerID, int depth = 1)
+            public Point GetHint(int checkValue, FieldState fState)
             {
                 Point returnHint = new Point();
-
-                if (depth >= 1)
+            
+                for (byte y = 0; y < 3; y++)
                 {
-                    for (byte y = 0; y < 3; y++)
+                    for (byte x = 0; x < 3; x++)
                     {
-                        for (byte x = 0; x < 3; x++)
+                        if (board[y, x] == FieldState.Empty)
                         {
-                            if (board[y, x] == FieldState.Empty)
-                            {
-                                board[y, x] = (playerID ? FieldState.X : FieldState.O);
+                            board[y, x] = fState;
 
-                                if (checkWin((playerID ? FieldState.X : FieldState.O), checkValue))
+                            if (checkWin(fState, checkValue))
+                            {
+                                if (checkValue == 3)
                                 {
                                     returnHint.x = x;
                                     returnHint.y = y;
                                     board[y, x] = FieldState.Empty;
                                     return returnHint;
                                 }
-                                board[y, x] = FieldState.Empty;
+                                if (checkValue == 2)
+                                {
+                                    returnHint = GetHint(3, fState);
+                                    board[y, x] = FieldState.Empty;
+                                    if (returnHint.x != 9) return returnHint;
+                                }
                             }
+                            board[y, x] = FieldState.Empty;
                         }
                     }
-                }
-                returnHint.x = 9;
-                return returnHint;
-            }
-            public Point GetHint(int checkValue, bool playerID)
-            {
-                Point returnHint = new Point();
-
-                
-                    for (byte y = 0; y < 3; y++)
-                    {
-                        for (byte x = 0; x < 3; x++)
-                        {
-                            if (board[y, x] == FieldState.Empty)
-                            {
-                                board[y, x] = (playerID ? FieldState.X : FieldState.O);
-
-                                if (checkWin((playerID ? FieldState.X : FieldState.O), checkValue))
-                                {
-                                    if (checkValue == 3)
-                                    {
-                                        returnHint.x = x;
-                                        returnHint.y = y;
-                                        board[y, x] = FieldState.Empty;
-                                        return returnHint;
-                                    }
-                                    if (checkValue == 2)
-                                    {
-                                        returnHint = GetHint(3, playerID);
-                                        board[y, x] = FieldState.Empty;
-                                        if (returnHint.x != 9) return returnHint;
-                                    }
-                                }
-                                board[y, x] = FieldState.Empty;
-                            }
-                        }
-                    }  
+                }  
                 returnHint.x = 9;
                 return returnHint;
             }
