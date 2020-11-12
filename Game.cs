@@ -99,26 +99,73 @@
             public Point GetHint(int checkValue, bool playerID)
             {
                 Point returnHint = new Point();
+                byte xtemp;
+                byte ytemp;
 
-                for (byte y = 0; y < 3; y++)
+                if (checkValue == 3)
                 {
-                    for (byte x = 0; x < 3; x++)
+                    for (byte y = 0; y < 3; y++)
                     {
-                        if (board[y, x] == FieldState.Empty)
+                        for (byte x = 0; x < 3; x++)
                         {
-                            board[y, x] = (playerID ? FieldState.X : FieldState.O);
-
-                            if (checkWin(board[y, x] = (playerID ? FieldState.X : FieldState.O), checkValue))
+                            if (board[y, x] == FieldState.Empty)
                             {
-                                returnHint.x = x;
-                                returnHint.y = y;
+                                board[y, x] = (playerID ? FieldState.X : FieldState.O);
+
+                                if (checkWin((playerID ? FieldState.X : FieldState.O), checkValue))
+                                {
+                                    returnHint.x = x;
+                                    returnHint.y = y;
+                                    board[y, x] = FieldState.Empty;
+                                    return returnHint;
+                                }
                                 board[y, x] = FieldState.Empty;
-                                return returnHint;
                             }
-                            board[y, x] = FieldState.Empty;
                         }
                     }
                 }
+                else if (checkValue == 2)
+                {
+                    for (byte y = 0; y < 3; y++)
+                    {
+                        for (byte x = 0; x < 3; x++)
+                        {
+                            if (board[y, x] == FieldState.Empty)
+                            {
+                                board[y, x] = (playerID ? FieldState.X : FieldState.O);
+
+                                if (checkWin((playerID ? FieldState.X : FieldState.O), 2))
+                                {
+                                    xtemp = x; // kann vermutlich weg
+                                    ytemp = y;
+
+                                    for (byte y2 = 0; y2 < 3; y2++)
+                                    {
+                                        for (byte x2 = 0; x2 < 3; x2++)
+                                        {
+                                            if (board[y2, x2] == FieldState.Empty)
+                                            {
+                                                board[y2, x2] = (playerID ? FieldState.X : FieldState.O);
+
+                                                if (checkWin((playerID ? FieldState.X : FieldState.O), 3))
+                                                {
+                                                    returnHint.x = x2;
+                                                    returnHint.y = y2;
+                                                    board[ytemp, xtemp] = FieldState.Empty;
+                                                    board[y2, x2] = FieldState.Empty;
+                                                    return returnHint;
+                                                }
+                                                board[y2, x2] = FieldState.Empty;
+                                            }
+                                        }
+                                    }
+                                }
+                                board[y, x] = FieldState.Empty;
+                            }
+                        }
+                    }
+                }
+                
                 returnHint.x = 9;
                 return returnHint;
             }

@@ -13,7 +13,6 @@ namespace TicTacToe
             Game game = new Game();           
             Point input;
             
-
             do
             {
                 Draw(game.board);
