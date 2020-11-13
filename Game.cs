@@ -67,6 +67,7 @@
                     {
                         counterY++;               // Anzahl der gleichen Steine in dieser Spalte um 1 erhöhen
                     }
+                    #region Hack - Game läuft auch ohne diesen Bereich
                     if (y == 0) // Diagonalen nur einmal testen
                     {
                         if (board[x, x] == playerFieldState)      // Test diagonal von oben links, x wird immer um 1 erhöht daher setzen wir einfach [x,x] ein, das ergibt den Test für [0,0] [1,1] [2,2]
@@ -78,15 +79,18 @@
                             counterDiag2++;       // Anzahl der gleichen Steine in dieser Diagonalen um 1 erhöhen
                         }
                     }
+                    #endregion
                     if (counterX == checkValue || counterY == checkValue || counterDiag1 == checkValue || counterDiag2 == checkValue) // Sobald irgendwo checkValue gleiche Steine gezählt wurden, dann ...
                     {
                         return true;         // raus aus der Funktion, Gewinner steht fest, kein weiteres Prüfen notwendig
                     }
                 }
+                #region Hack - Game läuft auch ohne diesen Bereich
                 if (checkValue == 3 && counterX == 0 && counterY == 0 && counterDiag1 == 0 && counterDiag2 == 0)
                 {
                     return false; // dirty hack, wenn Rand oben, Rand links und Diagonalen nicht belegt, dann brauchen wir gar nicht weiter testen
                 }
+                #endregion
             }
             return false;
         }
