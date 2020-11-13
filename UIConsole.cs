@@ -13,7 +13,7 @@ namespace TicTacToe
         }
         public override void PrintError(string str)
         {
-            Text($"{str}                 ", 5, 16, ConsoleColor.White, ConsoleColor.Red);
+            Text($"{str}             ", 5, 16, ConsoleColor.White, ConsoleColor.Red);
         }
         public override void PrintInfo(string str)
         {
@@ -21,8 +21,15 @@ namespace TicTacToe
         }
         public override void PrintHint(byte x, byte y)
         {
-            Text($"Hint: {x}, {y}                     ", 5, 16, ConsoleColor.DarkGray, ConsoleColor.Black);
+            if (x == 9) // wenn x/y = 9 dann ist kein Hint vorhanden
+            {
+                Text("Hint: no hint! choose an empty field!         ", 5, 16, ConsoleColor.DarkGray, ConsoleColor.Black);
+            }
+            else
+            {
+            Text($"Hint: {x}, {y}                           ", 5, 16, ConsoleColor.DarkGray, ConsoleColor.Black);
             Text("H", 12 + x * 4, 7 + y * 2, ConsoleColor.DarkGray, ConsoleColor.Black);
+            }
         }
         public override void Start(Game game)
         {

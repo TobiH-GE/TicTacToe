@@ -108,7 +108,7 @@
                 return;
             }
 
-            UIConsole.Text("Hint: choose an empty field!", 5, 16); // kein Hint vorhanden
+            UIGame.PrintHint(9, 9); // Rückgabewert 9 steht für "kein Hint vorhanden"
         }
 
         public Point GetHint(int checkValue, FieldState fState)
