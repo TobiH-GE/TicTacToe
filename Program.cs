@@ -20,7 +20,7 @@ namespace TicTacToe
                 game = new Game(UIGame);
                 UIGame.WaitForInput();
 
-            } while (Console.ReadKey().Key != ConsoleKey.N);
+            } while (true);
         }
     }
 }

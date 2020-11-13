@@ -10,6 +10,9 @@ namespace TicTacToe
         protected ConsoleColor fColor;
         protected ConsoleColor bColor;
         public bool selected;
+        public bool active;
+
+        public string Input { get; set; }
 
         /// <summary>
         /// zeichnet ein UI-Element an Position x,y
