@@ -2,9 +2,11 @@
 
 namespace TicTacToe
 {
-    struct Point
+    class Point
     {
         public byte x, y;
+        public bool xHasValue = false;
+        public bool yHasValue = false;
     }
     class Program                               // *** TicTacToe von TobiH ***
     {
