@@ -27,12 +27,12 @@ namespace TicTacToe
         {
             if (x == 9) // wenn x/y = 9 dann ist kein Hint vorhanden
             {
-                UIElements[12]=(new UIText("Hint: no hint! choose an empty field!", 5, 16, ConsoleColor.DarkGray, ConsoleColor.Black));
+                UIElements[12]=(new UIText("Hint: *, *", 5, 16, ConsoleColor.DarkGray, ConsoleColor.Black));
             }
             else
             {
                 UIElements[12] = (new UIText($"Hint: {x}, {y}", 5, 16, ConsoleColor.DarkGray, ConsoleColor.Black));
-                UIElements[13] = (new UIText("H", 12 + x * 4, 7 + y * 2, ConsoleColor.DarkGray, ConsoleColor.Black));
+                UIElements[13] = (new UIText("H", 12 + x * 8, 7 + y * 2, ConsoleColor.DarkGray, ConsoleColor.Black));
             }
         }
         public override void Start(Game game)
@@ -42,15 +42,15 @@ namespace TicTacToe
             Console.CursorVisible = false;
             UIElements.Add(new UIText("TicTacToe by TobiH", 10, 0));
             UIElements.Add(new UIText($"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 0, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
-            UIElements.Add(new UIText("0   1   2", 12, 5));
-            UIElements.Add(new UIText("   -------------", 7, 6));
-            UIElements.Add(new UIText("0  |   |   |   |", 7, 7));
-            UIElements.Add(new UIText("   -------------", 7, 8));
-            UIElements.Add(new UIText("1  |   |   |   |", 7, 9));
-            UIElements.Add(new UIText("   -------------", 7, 10));
-            UIElements.Add(new UIText("2  |   |   |   |", 7, 11));
-            UIElements.Add(new UIText("   -------------", 7, 12));
-            UIElements.Add(new UIText("enter [0,1,2] or [9] for hint and [ESC] to exit", 5, 15)); // 10 = Infotext
+            UIElements.Add(new UIText("     0       1       2", 7, 5));
+            UIElements.Add(new UIText(" -------------------------", 7, 6));
+            UIElements.Add(new UIText("0|\t|\t|\t|", 7, 7));
+            UIElements.Add(new UIText(" -------------------------", 7, 8));
+            UIElements.Add(new UIText("1|\t|\t|\t|", 7, 9));
+            UIElements.Add(new UIText(" -------------------------", 7, 10));
+            UIElements.Add(new UIText("2|\t|\t|\t|", 7, 11));
+            UIElements.Add(new UIText(" -------------------------", 7, 12));
+            UIElements.Add(new UIText("enter [0,1,2] or [H] for hint and [ESC] to exit", 5, 15)); // 10 = Infotext
             UIElements.Add(new UIText("", 20, 16)); // 11 = Error
             UIElements.Add(new UIText("", 5, 16)); // 12 = HintText
             UIElements.Add(new UIText("", 25, 16)); // 13 = HintSymbol
@@ -107,7 +107,7 @@ namespace TicTacToe
                                 else
                                 {
                                     UIElements[12].text = "          "; UIElements[13].text = " "; UIElements[14].Input = " "; UIElements[15].Input = " ";
-                                    UIElements.Add(new UIText($"{game.board[input.y, input.x]}", 12 + input.x * 4, 7 + input.y * 2, (game.board[input.y, input.x] == FieldState.X ? pColor[0] : pColor[1])));
+                                    UIElements.Add(new UIText($"{game.board[input.y, input.x]}", 12 + input.x * 8, 7 + input.y * 2, (game.board[input.y, input.x] == FieldState.X ? pColor[0] : pColor[1])));
                                     UIElements[1] = (new UIText($"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 0, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
 
                                     if (game.turnNumber == 10)
@@ -125,7 +125,7 @@ namespace TicTacToe
                             if (activeElement > 15) activeElement = 14;
 
                             break;
-                        case ConsoleKey.D9:
+                        case ConsoleKey.H:
                             game.DrawHint();
                             break;
                         case ConsoleKey.Escape:
@@ -136,7 +136,7 @@ namespace TicTacToe
                             break;
                     }
                 }
-            } while (gameStatus == true);    
+            } while (gameStatus == true);    // TODO: exit, Fehlerbehandlung
         }
         public override void Draw(FieldState[,] board)
         {

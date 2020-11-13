@@ -18,7 +18,7 @@ namespace TicTacToe
             if ((DateTime.Now - lastUpdate).TotalMilliseconds >= 5000)
             {
                 Console.SetCursorPosition(0, 0);
-                Console.Write("{0,8} fps", framesSinceLastUpdate / 5);
+                Console.Write("{0,0} fps", framesSinceLastUpdate / 5);
                 framesSinceLastUpdate = 0;
                 lastUpdate = DateTime.Now;
             }
