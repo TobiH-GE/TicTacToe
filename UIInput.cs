@@ -4,7 +4,7 @@ namespace TicTacToe
 {
     class UIInput : UIObject
     {
-        public UIInput(string text, int x, int y, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false, string input = "")
+        public UIInput(string text, int x, int y, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false)
         {
             this.text = text;
             this.x = x;
@@ -13,7 +13,6 @@ namespace TicTacToe
             this.bColor = bColor;
             this.active = false;
             this.selected = false;
-            this.Input = Input;
         }
 
         public override void Draw()
@@ -28,7 +27,7 @@ namespace TicTacToe
             {
                 Console.BackgroundColor = bColor;
             }
-            Console.Write(text + ": " + Input);
+            Console.Write(text + ": " + input);
             Console.ResetColor();
         }
     }

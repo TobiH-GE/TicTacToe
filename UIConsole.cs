@@ -86,19 +86,19 @@ namespace TicTacToe
                             
                             break;
                         case ConsoleKey.D0:
-                            UIElements[activeElement].Input = "0";
+                            UIElements[activeElement].input = "0";
                             break;
                         case ConsoleKey.D1:
-                            UIElements[activeElement].Input = "1";
+                            UIElements[activeElement].input = "1";
                             break;
                         case ConsoleKey.D2:
-                            UIElements[activeElement].Input = "2";
+                            UIElements[activeElement].input = "2";
                             break;
                         case ConsoleKey.Enter:
                             if (activeElement == 15)
                             {
-                                Byte.TryParse(UIElements[14].Input, out input.x);
-                                Byte.TryParse(UIElements[15].Input, out input.y);
+                                Byte.TryParse(UIElements[14].input, out input.x);
+                                Byte.TryParse(UIElements[15].input, out input.y);
 
                                 if (game.turn(input) == TurnResult.Invalid)
                                 {
@@ -106,7 +106,7 @@ namespace TicTacToe
                                 }
                                 else
                                 {
-                                    UIElements[12].text = "          "; UIElements[13].text = " "; UIElements[14].Input = " "; UIElements[15].Input = " ";
+                                    UIElements[12].text = "          "; UIElements[13].text = " "; UIElements[14].input = " "; UIElements[15].input = " ";
                                     UIElements.Add(new UIText($"{game.board[input.y, input.x]}", 12 + input.x * 8, 7 + input.y * 2, (game.board[input.y, input.x] == FieldState.X ? pColor[0] : pColor[1])));
                                     UIElements[1] = (new UIText($"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 0, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
 

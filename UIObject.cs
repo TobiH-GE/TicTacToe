@@ -11,12 +11,8 @@ namespace TicTacToe
         protected ConsoleColor bColor;
         public bool selected;
         public bool active;
+        public string input;
 
-        public string Input { get; set; }
-
-        /// <summary>
-        /// zeichnet ein UI-Element an Position x,y
-        /// </summary>
         public virtual void Draw()
         {
             Console.SetCursorPosition(x, y);
