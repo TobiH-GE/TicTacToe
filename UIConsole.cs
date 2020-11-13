@@ -38,6 +38,7 @@ namespace TicTacToe
         public override void Start(Game game)
         {
             this.game = game;
+            Console.Clear();
             Console.CursorVisible = false;
             UIElements.Add(new UIText("TicTacToe by TobiH", 10, 0));
             UIElements.Add(new UIText($"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 0, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
@@ -49,7 +50,7 @@ namespace TicTacToe
             UIElements.Add(new UIText("   -------------", 7, 10));
             UIElements.Add(new UIText("2  |   |   |   |", 7, 11));
             UIElements.Add(new UIText("   -------------", 7, 12));
-            UIElements.Add(new UIText("", 5, 15)); // 10 = Infotext
+            UIElements.Add(new UIText("enter [0,1,2] or [9] for hint and [ESC] to exit", 5, 15)); // 10 = Infotext
             UIElements.Add(new UIText("", 20, 16)); // 11 = Error
             UIElements.Add(new UIText("", 5, 16)); // 12 = HintText
             UIElements.Add(new UIText("", 25, 16)); // 13 = HintSymbol
@@ -60,6 +61,7 @@ namespace TicTacToe
         {
             Point input = new Point();
             FPS fpsCounter = new FPS();
+            bool gameStatus = true;
 
             ConsoleKeyInfo UserInput = new ConsoleKeyInfo();
 
@@ -104,22 +106,37 @@ namespace TicTacToe
                                 }
                                 else
                                 {
+                                    UIElements[12].text = "          "; UIElements[13].text = " "; UIElements[14].Input = " "; UIElements[15].Input = " ";
                                     UIElements.Add(new UIText($"{game.board[input.y, input.x]}", 12 + input.x * 4, 7 + input.y * 2, (game.board[input.y, input.x] == FieldState.X ? pColor[0] : pColor[1])));
                                     UIElements[1] = (new UIText($"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 0, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
+
+                                    if (game.turnNumber == 10)
+                                    {
+                                        UIElements[10].text = "tie! try again? [y/ESC]";
+                                    }
+                                    else if (game.turnNumber >= 11)
+                                    {
+                                        UIElements[12].text = "win! try again? [y/ESC]";
+                                    }
                                 }
                             }
 
                             activeElement++;
                             if (activeElement > 15) activeElement = 14;
+
                             break;
                         case ConsoleKey.D9:
                             game.DrawHint();
+                            break;
+                        case ConsoleKey.Escape:
+                            gameStatus = false;
+                            UIElements.Clear();
                             break;
                         default:
                             break;
                     }
                 }
-            } while (true);    
+            } while (gameStatus == true);    
         }
         public override void Draw(FieldState[,] board)
         {
