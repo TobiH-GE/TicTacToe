@@ -80,6 +80,10 @@
                         return true;         // raus aus der Funktion, Gewinner steht fest, kein weiteres Prüfen notwendig
                     }
                 }
+                if (checkValue == 3 && counterX == 0 && counterY == 0 && counterDiag1 == 0 && counterDiag2 == 0)
+                {
+                    return false; // dirty hack, wenn Rand oben, Rand links und Diagonalen nicht belegt, dann brauchen wir gar nicht weiter testen
+                }
             }
             return false;
         }
