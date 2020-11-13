@@ -11,5 +11,6 @@ namespace TicTacToe
         public abstract void Start(Game game);
         public abstract void WaitForInput();
         public abstract void Draw(FieldState[,] board);
+        public abstract int EnterPosition();
     }
 }

@@ -13,7 +13,7 @@ namespace TicTacToe
         }
         public override void PrintError(string str)
         {
-            Text($"{str}                        ", 5, 16, ConsoleColor.White, ConsoleColor.Red);
+            Text($"{str}                 ", 5, 16, ConsoleColor.White, ConsoleColor.Red);
         }
         public override void PrintInfo(string str)
         {
@@ -33,7 +33,43 @@ namespace TicTacToe
         }
         public override void WaitForInput()
         {
+            Point input;
 
+            do
+            {
+                Draw(game.board);
+                do
+                {
+                    PrintInfo("enter [0,1,2] or [9] for hint ... x-position: ");
+                    input.x = (byte)EnterPosition();
+                    if (input.x == 9) game.DrawHint();
+                } while (input.x == 3 || input.x == 9);
+                do
+                {
+                    PrintInfo("enter [0,1,2] or [9] for hint ... y-position: ");
+                    input.y = (byte)EnterPosition();
+                    if (input.y == 9) game.DrawHint();
+                } while (input.y == 3 || input.y == 9);
+
+                if (game.turn(input) == TurnResult.Invalid)
+                {
+                    PrintError("invalid!");
+                    Console.ReadLine();
+                }
+
+            } while (game.turnNumber < 10);
+
+            if (game.turnNumber == 10)
+            {
+                PrintInfo("tie!                                                 ");
+            }
+            else
+            {
+                Draw(game.board);
+                PrintInfo("win!                                                 ");
+            }
+
+            PrintInfo("again? [y/n]!                                            ");
         }
         public static void Text(string text, int x, int y, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black)
         {
@@ -69,6 +105,26 @@ namespace TicTacToe
                 }
             }
             Console.CursorVisible = true;
+        }
+        public override int EnterPosition()
+        {
+            int Eingabe = 0;
+            try
+            {
+                Eingabe = Convert.ToInt32(Console.ReadLine());
+            }
+            catch
+            {
+                PrintError("Error, try again.");
+                return 3;
+            }
+            if ((Eingabe >= 0 && Eingabe <= 2) || Eingabe == 9)
+                return Eingabe;
+            else
+            {
+                PrintError("Error, try again.");
+                return 3;
+            }
         }
     }
 }
