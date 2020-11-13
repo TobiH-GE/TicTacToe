@@ -40,6 +40,7 @@ namespace TicTacToe
             this.game = game;
             Console.Clear();
             Console.CursorVisible = false;
+
             UIElements.Add(new UIText("TicTacToe by TobiH", 10, 0));
             UIElements.Add(new UIText($"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 0, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
             UIElements.Add(new UIText("     0       1       2", 7, 5));
@@ -65,9 +66,12 @@ namespace TicTacToe
 
             ConsoleKeyInfo UserInput = new ConsoleKeyInfo();
 
+            UIElements[activeElement].selected = true;
+
             do
             {
                 fpsCounter.Draw();
+                
                 for (int i = 0; i < UIElements.Count; i++)
                 {
                     UIElements[i].Draw();

@@ -2,7 +2,7 @@
 
 namespace TicTacToe
 {
-    class UIObject
+    abstract class UIObject
     {
         public string text;
         protected int x;
@@ -27,6 +27,10 @@ namespace TicTacToe
             }
             Console.Write(text);
             Console.ResetColor();
+        }
+        public virtual void Action()
+        {
+
         }
     }
 }

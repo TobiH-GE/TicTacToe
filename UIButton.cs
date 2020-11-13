@@ -13,5 +13,9 @@ namespace TicTacToe
             this.bColor = bColor;
             this.selected = selected;
         }
+        public override void Action()
+        {
+
+        }
     }
 }

@@ -30,5 +30,9 @@ namespace TicTacToe
             Console.Write(text + ": " + input);
             Console.ResetColor();
         }
+        public override void Action()
+        {
+
+        }
     }
 }
