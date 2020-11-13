@@ -2,69 +2,57 @@
 
 namespace TicTacToe
 {
-    partial class Program                               // *** TicTacToe von TobiH ***
+    struct Point
     {
-        struct Point
-        {
-            public byte x, y;
-        }
+        public byte x, y;
+    }
+    class Program                               // *** TicTacToe von TobiH ***
+    {
         static void Main(string[] args)
         {
-            Game game = new Game();           
+            UI UIGame = new UIConsole();
+
+            Game game;           
             Point input;
-            
             do
             {
-                Draw(game.board);
+                game = new Game(UIGame);
                 do
                 {
-                    Console.WriteLine("enter [0,1,2] or [9] for hint ... x-position: ");
-                    input.x = (byte)enterPosition();
-                    if (input.x == 9) Console.WriteLine(game.DrawHint());
-                } while (input.x == 3 || input.x == 9);
-                do
-                {
-                    Console.WriteLine("enter [0,1,2] or [9] for hint ... y-position: ");
-                    input.y = (byte)enterPosition();
-                    if (input.y == 9) Console.WriteLine(game.DrawHint());
-                } while (input.y == 3 || input.y == 9);
-
-                if (game.turn(input) == TurnResult.Invalid)
-                {
-                    Console.WriteLine("invalid!");
-                    Console.ReadLine();
-                }
-
-            } while (game.turnNumber < 10);
-
-            if (game.turnNumber == 10) Console.WriteLine("tie!");
-            else Console.WriteLine("win!");
-
-            void Draw(FieldState[,] board)
-            {
-                Console.Clear();
-                Console.WriteLine("TicTacToe by TobiH\n");
-                Console.WriteLine("round {0}, {1} [{2}] it's your turn!\n", game.turnNumber, game.playerNames[Convert.ToInt32(game.currentPlayerID)], (game.currentPlayerID ? FieldState.X : FieldState.O));
-
-                Console.Write("\n\n\t      0   1   2  ");
-                for (int y = 0; y < 3; y++)
-                {
-                    Console.Write("\n\t    -------------\n\t"+y+"   ");
-                    for (int x = 0; x < 3; x++)
+                    UIGame.Draw(game.board);
+                    do
                     {
-                        if(board[y, x] == FieldState.Empty)
-                        {
-                            Console.Write("|   ");
-                        }
-                        else
-                        {
-                            Console.Write("| " + board[y, x] + " ");
-                        }
+                        UIGame.PrintInfo("enter [0,1,2] or [9] for hint ... x-position: ");
+                        input.x = (byte)enterPosition();
+                        if (input.x == 9) game.DrawHint();
+                    } while (input.x == 3 || input.x == 9);
+                    do
+                    {
+                        UIGame.PrintInfo("enter [0,1,2] or [9] for hint ... y-position: ");
+                        input.y = (byte)enterPosition();
+                        if (input.y == 9) game.DrawHint();
+                    } while (input.y == 3 || input.y == 9);
+
+                    if (game.turn(input) == TurnResult.Invalid)
+                    {
+                        UIGame.PrintError("invalid!");
+                        Console.ReadLine();
                     }
-                    Console.Write("|");
+
+                } while (game.turnNumber < 10);
+
+                if (game.turnNumber == 10)
+                {
+                    UIGame.PrintInfo("tie!                                                 ");
                 }
-                Console.WriteLine("\n\t    -------------\n\n");
-            }
+                else
+                {
+                    UIGame.Draw(game.board);
+                    UIGame.PrintInfo("win!                                                 ");
+                }
+
+            UIGame.PrintInfo("again? [y/n]!                                            ");
+            } while (Console.ReadKey().Key != ConsoleKey.N);
 
             int enterPosition()
             {
@@ -75,14 +63,14 @@ namespace TicTacToe
                 }
                 catch
                 {
-                    Console.WriteLine("Error, try again.");
+                    UIGame.PrintError("Error, try again.");
                     return 3;
                 }
                 if ((Eingabe >= 0 && Eingabe <= 2) || Eingabe == 9)
                     return Eingabe;
                 else
                 {
-                    Console.WriteLine("only 0 - 2 is allowed, try again.");
+                    UIGame.PrintError("Error, try again.");
                     return 3;
                 }
             }
