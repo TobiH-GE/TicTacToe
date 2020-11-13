@@ -68,7 +68,7 @@
                         counterY++;               // Anzahl der gleichen Steine in dieser Spalte um 1 erhöhen
                     }
                     #region Hack - Game läuft auch ohne diesen Bereich
-                    if (y == 0) // Diagonalen nur einmal testen
+                    if (checkValue == 3 && y == 0) // Diagonalen nur einmal testen
                     {
                         if (board[x, x] == playerFieldState)      // Test diagonal von oben links, x wird immer um 1 erhöht daher setzen wir einfach [x,x] ein, das ergibt den Test für [0,0] [1,1] [2,2]
                         {
