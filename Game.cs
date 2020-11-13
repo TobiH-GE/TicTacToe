@@ -67,13 +67,16 @@
                     {
                         counterY++;               // Anzahl der gleichen Steine in dieser Spalte um 1 erhöhen
                     }
-                    if (board[x, x] == playerFieldState)      // Test diagonal von oben links, x wird immer um 1 erhöht daher setzen wir einfach [x,x] ein, das ergibt den Test für [0,0] [1,1] [2,2]
+                    if (y == 0) // Diagonalen nur einmal testen
                     {
-                        counterDiag1++;       // Anzahl der gleichen Steine in dieser Diagonalen um 1 erhöhen
-                    }
-                    if (board[2 - x, x] == playerFieldState)  // Test diagonal von oben rechts, x wird immer um 1 erhöht, mit [2 - x, x] erhalten wir also [2,0] [1,1] [0,2]
-                    {
-                        counterDiag2++;       // Anzahl der gleichen Steine in dieser Diagonalen um 1 erhöhen
+                        if (board[x, x] == playerFieldState)      // Test diagonal von oben links, x wird immer um 1 erhöht daher setzen wir einfach [x,x] ein, das ergibt den Test für [0,0] [1,1] [2,2]
+                        {
+                            counterDiag1++;       // Anzahl der gleichen Steine in dieser Diagonalen um 1 erhöhen
+                        }
+                        if (board[2 - x, x] == playerFieldState)  // Test diagonal von oben rechts, x wird immer um 1 erhöht, mit [2 - x, x] erhalten wir also [2,0] [1,1] [0,2]
+                        {
+                            counterDiag2++;       // Anzahl der gleichen Steine in dieser Diagonalen um 1 erhöhen
+                        }
                     }
                     if (counterX == checkValue || counterY == checkValue || counterDiag1 == checkValue || counterDiag2 == checkValue) // Sobald irgendwo checkValue gleiche Steine gezählt wurden, dann ...
                     {
