@@ -23,9 +23,9 @@ namespace TicTacToe
         {
             
         }
-        public override void PrintHint(byte x, byte y)
+        public override void PrintHint(sbyte x, sbyte y)
         {
-            if (x == 9) // wenn x/y = 9 dann ist kein Hint vorhanden
+            if (x == -1) // wenn x/y = -1 dann ist kein Hint vorhanden
             {
                 UIElements[12]=(new UIText("Hint: *, *", 5, 16, ConsoleColor.DarkGray, ConsoleColor.Black));
             }
@@ -101,8 +101,8 @@ namespace TicTacToe
                         case ConsoleKey.Enter:
                             if (activeElement == 15)
                             {
-                                Byte.TryParse(UIElements[14].input, out input.x);
-                                Byte.TryParse(UIElements[15].input, out input.y);
+                                sbyte.TryParse(UIElements[14].input, out input.x);
+                                sbyte.TryParse(UIElements[15].input, out input.y);
 
                                 if (game.turn(input) == TurnResult.Invalid)
                                 {

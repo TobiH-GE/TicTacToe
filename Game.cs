@@ -101,36 +101,36 @@
             Point hint;
 
             hint = GetHint(3, (currentPlayerID ? FieldState.X : FieldState.O)); // prüfe mit welchem 3. Zug Spieler gewinnen kann
-            if (hint.x != 9)
+            if (hint.x != -1)
             {
                 UIGame.PrintHint(hint.x, hint.y);
                 return;     // Gewinn möglich, also zurück
             }
                 
             hint = GetHint(3, (!currentPlayerID ? FieldState.X : FieldState.O)); // prüfe mit welchem 3. Zug der Gegner gewinnen kann (um dies zu verhindern)
-            if (hint.x != 9)
+            if (hint.x != -1)
             {
                 UIGame.PrintHint(hint.x, hint.y);
                 return;     // Gewinn möglich, also zurück
             }
 
             hint = GetHint(2, (currentPlayerID ? FieldState.X : FieldState.O)); // prüfe ob Spieler einen zweiten Stein legen kann und dann mit einem dritten in der selben Reihe gewinnt
-            if (hint.x != 9)
+            if (hint.x != -1)
             {
                 UIGame.PrintHint(hint.x, hint.y); // gibt dann die Position des möglichen dritten Steins zurück (wirkt sehr intelligent)
                 return;
             }
 
-            UIGame.PrintHint(9, 9); // Rückgabewert 9 steht für "kein Hint vorhanden"
+            UIGame.PrintHint(-1, -1); // Rückgabewert -1 steht für "kein Hint vorhanden"
         }
 
         public Point GetHint(int checkValue, FieldState fState)
         {
             Point returnHint = new Point();
             
-            for (byte y = 0; y < 3; y++)
+            for (sbyte y = 0; y < 3; y++)
             {
-                for (byte x = 0; x < 3; x++)
+                for (sbyte x = 0; x < 3; x++)
                 {
                     if (board[y, x] == FieldState.Empty) // prüfen des Spielfelds auf einen freien Platz
                     {
@@ -149,14 +149,14 @@
                             {
                                 returnHint = GetHint(3, fState); // testen ob mit 3. Stein Gewinn möglich, Funktion ruft sich selbst auf
                                 board[y, x] = FieldState.Empty; // 2. Teststein wieder vom Feld löschen
-                                if (returnHint.x != 9) return returnHint; // Gewinn mit 3. möglich
+                                if (returnHint.x != -1) return returnHint; // Gewinn mit 3. möglich
                             }
                         }
                         board[y, x] = FieldState.Empty; // kein Gewinn möglich, Teststein wieder vom Feld löschen
                     }
                 }
             }  
-            returnHint.x = 9; // kein Gewinn möglich
+            returnHint.x = -1; // kein Gewinn möglich
             return returnHint;
         }
         public void ResetBoard()
