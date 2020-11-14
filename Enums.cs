@@ -12,4 +12,11 @@ namespace TicTacToe
     {
         Valid, Invalid, Tie, Win
     }
+    enum Status
+    {
+        started,
+        stopped,
+        win,
+        tie
+    }
 }

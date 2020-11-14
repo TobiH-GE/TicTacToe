@@ -7,10 +7,11 @@
         public string[] playerNames = new string[] { "Player 1", "Player 2" };
         public int turnNumber = 1;
         public UI UIGame;               // UserInterface des Spiels
+        public Status status;
 
-        public Game (UI UIGame)
+        public Game (UI uigame)
         {
-            this.UIGame = UIGame;
+            UIGame = uigame;
             UIGame.Start(this);         // UserInterface starten
         }
 

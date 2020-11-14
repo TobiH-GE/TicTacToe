@@ -4,11 +4,13 @@ namespace TicTacToe
 {
     class UIInput : UIObject
     {
-        public UIInput(string text, int x, int y, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false)
+        Func<bool> methodName;
+        public UIInput(string text, int x, int y, Func<bool> methodName, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false)
         {
             this.text = text;
             this.x = x;
             this.y = y;
+            this.methodName = methodName;
             this.fColor = fColor;
             this.bColor = bColor;
             this.active = false;
@@ -32,7 +34,7 @@ namespace TicTacToe
         }
         public override void Action()
         {
-
+            methodName();
         }
     }
 }

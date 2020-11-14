@@ -11,14 +11,14 @@ namespace TicTacToe
         static void Main(string[] args)
         {
             UI UIGame = new UIConsole();
-            Game game;           
-            
+            Game game;
+
             do
             {
                 game = new Game(UIGame);
                 UIGame.WaitForInput();
 
-            } while (true);
+            } while (game.status != Status.stopped);
         }
     }
 }
