@@ -124,9 +124,10 @@ namespace TicTacToe
                                     }
                                 }
                             }
-
+                            UIElements[activeElement].selectedToggle();
                             activeElement++;
                             if (activeElement > 15) activeElement = 14;
+                            UIElements[activeElement].selectedToggle();
 
                             break;
                         case ConsoleKey.H:

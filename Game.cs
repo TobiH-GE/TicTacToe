@@ -6,12 +6,12 @@
         public bool currentPlayerID = false;
         public string[] playerNames = new string[] { "Player 1", "Player 2" };
         public int turnNumber = 1;
-        public UI UIGame;
+        public UI UIGame;               // UserInterface des Spiels
 
         public Game (UI UIGame)
         {
             this.UIGame = UIGame;
-            UIGame.Start(this);
+            UIGame.Start(this);         // UserInterface starten
         }
 
         public FieldState[,] getBoard()
@@ -22,33 +22,33 @@
         {
             return currentPlayerID;
         }
-        public TurnResult turn(Point point)
+        public TurnResult turn(Point point)     // Spielzug ausführen und TurnResult zurückgeben
         {
-            if (board[point.y, point.x] != FieldState.Empty)
+            if (board[point.y, point.x] != FieldState.Empty)    // Brett an y.x nicht leer?
             {
-                return TurnResult.Invalid;
+                return TurnResult.Invalid;      // dann zurück
             }
 
-            board[point.y, point.x] = (currentPlayerID ? FieldState.X : FieldState.O);
+            board[point.y, point.x] = (currentPlayerID ? FieldState.X : FieldState.O);      // Brett mit Spielstein des Spielers belegen
 
-            if (checkWin(board[point.y, point.x]))
+            if (checkWin(board[point.y, point.x]))      // Gewonnen?
             {
-                turnNumber = 11;
+                turnNumber = 11;                        // Runde auf 11 heisst gewonnen
                 return TurnResult.Win;
             }
 
             turnNumber++;
 
-            currentPlayerID = !currentPlayerID;
-            return TurnResult.Valid;
+            currentPlayerID = !currentPlayerID;     // Spieler wechseln
+            return TurnResult.Valid;        // zurück, Spielzug ok
         }
 
-        private bool checkWin(FieldState playerFieldState, int checkValue = 3) // zum Test ob mit 2 oder 3 (checkValue) Steinen gewonnen
+        private bool checkWin(FieldState playerFieldState, int checkValue = 3) // zum Test ob 2 oder 3 Steine in Reihe liegen
         {
-            int counterX = 0;                     // für den horizontalen Test  
-            int counterY = 0;                     // für den vertikalen Test
-            int counterDiag1 = 0;             // für den Test von oben links nach unten rechts
-            int counterDiag2 = 0;             // für den Test von oben rechts nach unten links
+            int counterX;                     // für den horizontalen Test  
+            int counterY;                     // für den vertikalen Test
+            int counterDiag1;             // für den Test von oben links nach unten rechts
+            int counterDiag2;             // für den Test von oben rechts nach unten links
 
             for (int y = 0; y <= 2; y++)                // Haupt-Testschleife, wir testen alles in einem Rutsch
             {
@@ -70,6 +70,7 @@
                     #region Hack - Game läuft auch ohne nachfolgende Zeile
                     if (checkValue == 3 && y == 0) // Diagonalen nur einmal testen
                     {
+                    #endregion
                         if (board[x, x] == playerFieldState)      // Test diagonal von oben links, x wird immer um 1 erhöht daher setzen wir einfach [x,x] ein, das ergibt den Test für [0,0] [1,1] [2,2]
                         {
                             counterDiag1++;       // Anzahl der gleichen Steine in dieser Diagonalen um 1 erhöhen
@@ -78,6 +79,7 @@
                         {
                             counterDiag2++;       // Anzahl der gleichen Steine in dieser Diagonalen um 1 erhöhen
                         }
+                    #region
                     }
                     #endregion
                     if (counterX == checkValue || counterY == checkValue || counterDiag1 == checkValue || counterDiag2 == checkValue) // Sobald irgendwo checkValue gleiche Steine gezählt wurden, dann ...
@@ -86,36 +88,36 @@
                     }
                 }
                 #region Hack - Game läuft auch ohne diesen Bereich
-                if (checkValue == 3 && counterX == 0 && counterY == 0 && counterDiag1 == 0 && counterDiag2 == 0)
+                if (checkValue == 3 && counterX == 0 && counterY == 0) // dirty hack, wenn Rand oben und Rand links nicht belegt, dann brauchen wir gar nicht weiter testen
                 {
-                    return false; // dirty hack, wenn Rand oben, Rand links und Diagonalen nicht belegt, dann brauchen wir gar nicht weiter testen
+                    return false;
                 }
                 #endregion
             }
             return false;
         }
-        public void DrawHint()
+        public void DrawHint()  // Vorschlag für Spielzug holen
         {
             Point hint;
 
-            hint = GetHint(3, (currentPlayerID ? FieldState.X : FieldState.O)); // prüfe ob Spieler gewinnen kann
+            hint = GetHint(3, (currentPlayerID ? FieldState.X : FieldState.O)); // prüfe mit welchem 3. Zug Spieler gewinnen kann
             if (hint.x != 9)
             {
                 UIGame.PrintHint(hint.x, hint.y);
-                return;
+                return;     // Gewinn möglich, also zurück
             }
                 
-            hint = GetHint(3, (!currentPlayerID ? FieldState.X : FieldState.O)); // prüfe ob der Gegner gewinnen kann
+            hint = GetHint(3, (!currentPlayerID ? FieldState.X : FieldState.O)); // prüfe mit welchem 3. Zug der Gegner gewinnen kann (um dies zu verhindern)
             if (hint.x != 9)
             {
                 UIGame.PrintHint(hint.x, hint.y);
-                return;
+                return;     // Gewinn möglich, also zurück
             }
 
-            hint = GetHint(2, (currentPlayerID ? FieldState.X : FieldState.O)); // prüfe ob Spieler einen zweiten Stein in eine Reihe legen kann und dann mit einem dritten die Reihe gewinnt
+            hint = GetHint(2, (currentPlayerID ? FieldState.X : FieldState.O)); // prüfe ob Spieler einen zweiten Stein legen kann und dann mit einem dritten in der selben Reihe gewinnt
             if (hint.x != 9)
             {
-                UIGame.PrintHint(hint.x, hint.y);
+                UIGame.PrintHint(hint.x, hint.y); // gibt dann die Position des möglichen dritten Steins zurück (wirkt sehr intelligent)
                 return;
             }
 
@@ -134,7 +136,7 @@
                     {
                         board[y, x] = fState;   // ein Teststein setzen
 
-                        if (checkWin(fState, checkValue))   // testen ob mit Anzahl checkValue gewonnen wird
+                        if (checkWin(fState, checkValue))   // testen auf 2er oder 3er (checkValue) Reihe
                         {
                             if (checkValue == 3) // es wurde auf 3 Steine getestet
                             {

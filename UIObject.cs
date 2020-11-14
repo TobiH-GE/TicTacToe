@@ -32,5 +32,10 @@ namespace TicTacToe
         {
 
         }
+
+        public virtual void selectedToggle()
+        {
+            selected = !selected;
+        }
     }
 }
