@@ -122,6 +122,13 @@
                 return;
             }
 
+            hint = GetHint(3, FieldState.Empty); // prüfe ob überhaupt noch eine 3er Reihe frei ist
+            if (hint.x != -1)
+            {
+                UIGame.PrintHint(hint.x, hint.y); // gibt die Position zurück
+                return;
+            }
+
             UIGame.PrintHint(-1, -1); // Rückgabewert -1 steht für "kein Hint vorhanden"
         }
 
