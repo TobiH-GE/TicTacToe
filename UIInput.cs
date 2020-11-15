@@ -29,7 +29,11 @@ namespace TicTacToe
             {
                 Console.BackgroundColor = bColor;
             }
-            Console.Write(text + ": " + input);
+            
+            Console.Write(text + ":");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Write(" " + input);
             Console.ResetColor();
         }
         public override void Action()

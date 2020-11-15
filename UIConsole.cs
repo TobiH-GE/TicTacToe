@@ -14,7 +14,7 @@ namespace TicTacToe
 
         public override void PrintStatus(ref Game game)
         {
-            UIElements[1] = (new UIText($"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 0, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
+            UIElements[1] = (new UIText($"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 10, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
         }
         public override void PrintError(string str)
         {
@@ -33,7 +33,7 @@ namespace TicTacToe
             else
             {
                 UIElements[12] = (new UIText($"Hint: {x}, {y}", 5, 16, ConsoleColor.DarkGray, ConsoleColor.Black));
-                UIElements[13] = (new UIText("H", 12 + x * 8, 7 + y * 2, ConsoleColor.DarkGray, ConsoleColor.Black));
+                UIElements[13] = (new UIText("H", 20 + x * 8, 7 + y * 2, ConsoleColor.DarkGray, ConsoleColor.Black));
             }
         }
         public override void Start(Game game)
@@ -42,16 +42,16 @@ namespace TicTacToe
             Console.Clear();
             Console.CursorVisible = false;
 
-            UIElements.Add(new UIText("TicTacToe by TobiH", 10, 0));
-            UIElements.Add(new UIText($"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 0, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
-            UIElements.Add(new UIText("     0       1       2", 7, 5));
-            UIElements.Add(new UIText(" -------------------------", 7, 6));
-            UIElements.Add(new UIText("0|\t|\t|\t|", 7, 7));
-            UIElements.Add(new UIText(" -------------------------", 7, 8));
-            UIElements.Add(new UIText("1|\t|\t|\t|", 7, 9));
-            UIElements.Add(new UIText(" -------------------------", 7, 10));
-            UIElements.Add(new UIText("2|\t|\t|\t|", 7, 11));
-            UIElements.Add(new UIText(" -------------------------", 7, 12));
+            UIElements.Add(new UIText("TicTacToe by TobiH ", 20, 0));
+            UIElements.Add(new UIText($"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 10, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
+            UIElements.Add(new UIText("     0       1       2", 15, 5));
+            UIElements.Add(new UIText(" ╔═══════╦═══════╦═══════╗", 15, 6));
+            UIElements.Add(new UIText("0║\t║\t║\t║", 15, 7));
+            UIElements.Add(new UIText(" ╠═══════╬═══════╬═══════╣", 15, 8));
+            UIElements.Add(new UIText("1║\t║\t║\t║", 15, 9));
+            UIElements.Add(new UIText(" ╠═══════╬═══════╬═══════╣", 15, 10));
+            UIElements.Add(new UIText("2║\t║\t║\t║", 15, 11));
+            UIElements.Add(new UIText(" ╚═══════╩═══════╩═══════╝", 15, 12));
             UIElements.Add(new UIText("enter [0,1,2] or [H] for hint and [ESC] to exit", 5, 15)); // 10 = Infotext
             UIElements.Add(new UIText("", 20, 16)); // 11 = Error
             UIElements.Add(new UIText("", 5, 16)); // 12 = HintText
@@ -156,7 +156,7 @@ namespace TicTacToe
             else
             {
                 UIElements[12].text = "          "; UIElements[13].text = " "; UIElements[14].input = " "; UIElements[15].input = " ";
-                UIElements.Add(new UIText($"{game.board[input.y, input.x]}", 12 + input.x * 8, 7 + input.y * 2, (game.board[input.y, input.x] == FieldState.X ? pColor[0] : pColor[1])));
+                UIElements.Add(new UIText($"{game.board[input.y, input.x]}", 20 + input.x * 8, 7 + input.y * 2, (game.board[input.y, input.x] == FieldState.X ? pColor[0] : pColor[1])));
                 PrintStatus(ref game);
             }
         }
