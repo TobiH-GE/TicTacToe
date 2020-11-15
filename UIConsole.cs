@@ -6,8 +6,11 @@ namespace TicTacToe
     class UIConsole : UI
     {
         public List<UIObject> UIElements = new List<UIObject>();
-        public Game game;
+        
         FPS fpsCounter = new FPS();
+        Point input = new Point();
+        ConsoleKeyInfo UserInput = new ConsoleKeyInfo();
+        ConsoleColor[] pColor = new ConsoleColor[2] { ConsoleColor.Red, ConsoleColor.Blue };
         private int activeElement;
         public int ActiveElement
         {
@@ -23,12 +26,7 @@ namespace TicTacToe
                 UIElements[activeElement].selected = true;                
             }
         }
-        Point input = new Point();
-
-        ConsoleKeyInfo UserInput = new ConsoleKeyInfo();
-
-        ConsoleColor[] pColor = new ConsoleColor[2] { ConsoleColor.Red, ConsoleColor.Blue };
-
+    
         public override void PrintStatus(ref Game game)
         {
             UIElements[1] = (new UIText($"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 10, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
@@ -53,9 +51,8 @@ namespace TicTacToe
                 UIElements[13] = (new UIText("H", 20 + x * 8, 7 + y * 2, ConsoleColor.DarkGray, ConsoleColor.Black));
             }
         }
-        public override void Start(Game game)
+        public override void Start()
         {
-            this.game = game;
             Console.Clear();
             Console.CursorVisible = false;
             game.status = Status.started;
@@ -126,7 +123,7 @@ namespace TicTacToe
                         }
                         break;
                     case ConsoleKey.Escape:
-                        game.status = Status.stopped;   //TODO: Bug entfernen bei Neustart
+                        game.status = Status.stopped;
                         break;
                     default:
                         break;
@@ -175,10 +172,6 @@ namespace TicTacToe
             {
                 UIElements[i].Draw();
             }
-        }
-        public override int EnterPosition()
-        {
-            return 1;
         }
     }
 }

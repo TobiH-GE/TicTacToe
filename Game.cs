@@ -12,7 +12,8 @@
         public Game (UI uigame)
         {
             UIGame = uigame;
-            UIGame.Start(this);         // UserInterface starten
+            UIGame.game = this;
+            UIGame.Start();         // UserInterface starten
         }
 
         public FieldState[,] getBoard()
