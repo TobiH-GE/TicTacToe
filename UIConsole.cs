@@ -8,7 +8,24 @@ namespace TicTacToe
         public List<UIObject> UIElements = new List<UIObject>();
         public Game game;
         FPS fpsCounter = new FPS();
-        public int activeElement = 14;
+        private int activeElement;
+        public int ActiveElement
+        {
+            get
+            {
+                return activeElement;
+            }
+            set
+            {
+                UIElements[activeElement].selected = false;
+                activeElement = value;
+                if (ActiveElement > 16) activeElement = 14;
+                UIElements[activeElement].selected = true;                
+            }
+        }
+        Point input = new Point();
+
+        ConsoleKeyInfo UserInput = new ConsoleKeyInfo();
 
         ConsoleColor[] pColor = new ConsoleColor[2] { ConsoleColor.Red, ConsoleColor.Blue };
 
@@ -41,6 +58,7 @@ namespace TicTacToe
             this.game = game;
             Console.Clear();
             Console.CursorVisible = false;
+            game.status = Status.started;
 
             UIElements.Add(new UIText("TicTacToe by TobiH ", 20, 0));
             UIElements.Add(new UIText($"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 10, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
@@ -56,72 +74,69 @@ namespace TicTacToe
             UIElements.Add(new UIText("", 20, 16)); // 11 = Error
             UIElements.Add(new UIText("", 5, 16)); // 12 = HintText
             UIElements.Add(new UIText("", 25, 16)); // 13 = HintSymbol
-            UIElements.Add(new UIInput("X-Position", 5, 17, nextElement)); // 14 = Input X
-            UIElements.Add(new UIInput("Y-Position", 5, 18, nextElement)); // 15 = Input Y
+            UIElements.Add(new UIInput("X-Position", 5, 17, Next)); // 14 = Input X
+            UIElements.Add(new UIInput("Y-Position", 5, 18, Next)); // 15 = Input Y
             UIElements.Add(new UIButton("", 5, 19)); // 16 = invisible Button
+
+            ActiveElement = 14;
         }
         public override void WaitForInput()
         {
-            Point input = new Point();
-            game.status = Status.started;
+            Draw();
 
-            ConsoleKeyInfo UserInput = new ConsoleKeyInfo();
-
-            UIElements[activeElement].selected = true;
-
-            do
+            if (Console.KeyAvailable)
             {
-                Draw();
+                UserInput = Console.ReadKey(true);
 
-                if (Console.KeyAvailable)
+                switch (UserInput.Key)
                 {
-                    UserInput = Console.ReadKey(true);
-
-                    switch (UserInput.Key)
-                    {
-                        case ConsoleKey.UpArrow:
+                    case ConsoleKey.UpArrow:
                             
-                            break;
-                        case ConsoleKey.DownArrow:
+                        break;
+                    case ConsoleKey.DownArrow:
                             
-                            break;
-                        case ConsoleKey.D0:
-                            UIElements[activeElement].input = "0";
-                            break;
-                        case ConsoleKey.D1:
-                            UIElements[activeElement].input = "1";
-                            break;
-                        case ConsoleKey.D2:
-                            UIElements[activeElement].input = "2";
-                            break;
-                        case ConsoleKey.Enter:
-                            UIElements[activeElement].Action();
+                        break;
+                    case ConsoleKey.D0:
+                        UIElements[ActiveElement].input = "0";
+                        break;
+                    case ConsoleKey.D1:
+                        UIElements[ActiveElement].input = "1";
+                        break;
+                    case ConsoleKey.D2:
+                        UIElements[ActiveElement].input = "2";
+                        break;
+                    case ConsoleKey.Enter:
+                        UIElements[ActiveElement].Action();
 
-                            if (activeElement == 16)
-                            {
-                                startTurn(game, input);
-                                nextElement();
-                            }
-                            checkEndGame();
-                            break;
-                        case ConsoleKey.H:
-                            game.DrawHint();
-                            break;
-                        case ConsoleKey.Y:
-                            if (game.status == Status.tie || game.status == Status.win)
-                            {
-                                return;
-                            }
-                            break;
-                        case ConsoleKey.Escape:
-                            game.status = Status.stopped;
+                        if (ActiveElement == 16)
+                        {
+                            startTurn(game, input);
+                            ActiveElement++;
+                        }
+                        checkEndGame();
+                        break;
+                    case ConsoleKey.H:
+                        game.DrawHint();
+                        break;
+                    case ConsoleKey.Y:
+                        if (game.status == Status.tie || game.status == Status.win)
+                        {
                             UIElements.Clear();
-                            break;
-                        default:
-                            break;
-                    }
+                            game = new Game(this);
+                        }
+                        break;
+                    case ConsoleKey.Escape:
+                        game.status = Status.stopped;   //TODO: Bug entfernen bei Neustart
+                        break;
+                    default:
+                        break;
                 }
-            } while (game.status != Status.stopped);    // TODO: exit, restart, Fehlerbehandlung
+            }
+        }
+        public bool Next()
+        {
+            ActiveElement++;
+            return true;
         }
         public void checkEndGame()
         {
@@ -135,14 +150,6 @@ namespace TicTacToe
                 game.status = Status.win;
                 UIElements[12].text = "win! try again? [y/ESC]";
             }
-        }
-        public bool nextElement()
-        {
-            UIElements[activeElement].selectedToggle();
-            activeElement++;
-            if (activeElement > 16) activeElement = 14;
-            UIElements[activeElement].selectedToggle();
-            return true;
         }
         public void startTurn(Game game, Point input)
         {

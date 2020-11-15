@@ -16,7 +16,6 @@ namespace TicTacToe
             this.active = false;
             this.selected = false;
         }
-
         public override void Draw()
         {
             Console.SetCursorPosition(x, y);

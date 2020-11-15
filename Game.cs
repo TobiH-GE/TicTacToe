@@ -5,7 +5,7 @@
         public FieldState[,] board = new FieldState[3, 3];
         public bool currentPlayerID = false;
         public string[] playerNames = new string[] { "Player 1", "Player 2" };
-        public int turnNumber = 1;
+        public byte turnNumber = 1;
         public UI UIGame;               // UserInterface des Spiels
         public Status status;
 
@@ -44,21 +44,21 @@
             return TurnResult.Valid;        // zurück, Spielzug ok
         }
 
-        private bool checkWin(FieldState playerFieldState, int checkValue = 3) // zum Test ob 2 oder 3 Steine in Reihe liegen
+        private bool checkWin(FieldState playerFieldState, byte checkValue = 3) // zum Test ob 2 oder 3 Steine in Reihe liegen
         {
-            int counterX;                     // für den horizontalen Test  
-            int counterY;                     // für den vertikalen Test
-            int counterDiag1;             // für den Test von oben links nach unten rechts
-            int counterDiag2;             // für den Test von oben rechts nach unten links
+            byte counterX;                     // für den horizontalen Test  
+            byte counterY;                     // für den vertikalen Test
+            byte counterDiag1;             // für den Test von oben links nach unten rechts
+            byte counterDiag2;             // für den Test von oben rechts nach unten links
 
-            for (int y = 0; y <= 2; y++)                // Haupt-Testschleife, wir testen alles in einem Rutsch
+            for (byte y = 0; y <= 2; y++)                // Haupt-Testschleife, wir testen alles in einem Rutsch
             {
                 counterX = 0;
                 counterY = 0;
                 counterDiag1 = 0;
                 counterDiag2 = 0;
 
-                for (int x = 0; x <= 2; x++)            // wir erhöhen x in jedem Durchgang
+                for (byte x = 0; x <= 2; x++)            // wir erhöhen x in jedem Durchgang
                 {
                     if (board[y, x] == playerFieldState)      // horizontaler Test, fängt an bei [0,0] [0,1] [0,2] ...
                     {
@@ -97,7 +97,7 @@
             }
             return false;
         }
-        public void DrawHint()  // Vorschlag für Spielzug holen
+        public void DrawHint()  // KI, Vorschlag für Spielzug holen
         {
             Point hint;
 
@@ -132,7 +132,7 @@
             UIGame.PrintHint(-1, -1); // Rückgabewert -1 steht für "kein Hint vorhanden"
         }
 
-        public Point GetHint(int checkValue, FieldState fState)
+        public Point GetHint(byte checkValue, FieldState fState)
         {
             Point returnHint = new Point();
             
