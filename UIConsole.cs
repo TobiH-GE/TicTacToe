@@ -76,6 +76,14 @@ namespace TicTacToe
             UIElements.Add(new UIInput("X-Position", 5, 17, Next)); // Input X
             UIElements.Add(new UIInput("Y-Position", 5, 18, Next)); // Input Y
 
+            for (int y = 0; y <= 2; y++)
+            {
+                for (int x = 0; x <= 2; x++)
+                {
+                    UIElements.Add(new UIButton($" ", 20 + x * 8, 7 + y * 2, Place));
+                }
+            }
+
             // Debug - ein paar Buttons zum Test
             UIElements.Add(new UIInput("Test 1", 5, 20, Next));
             UIElements.Add(new UIInput("Test 2", 5, 21, Next));
@@ -196,7 +204,12 @@ namespace TicTacToe
         }
         public double DistanceTo(UIObject uobject)
         {
-            return Math.Sqrt(Math.Pow(Math.Abs(uobject.x - UIElements[activeElement].x), 2) + Math.Pow(Math.Abs(uobject.y - UIElements[activeElement].y), 2));
+            return Math.Sqrt(Math.Pow(uobject.x - UIElements[activeElement].x, 2) + Math.Pow((uobject.y - UIElements[activeElement].y) * 2, 2)); // * 2 Hack, vertikale Distanz optisch grösser als rechnerische Distanz
+        }
+        public bool Place()
+        {
+
+            return true;
         }
         public bool Next()
         {
