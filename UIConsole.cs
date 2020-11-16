@@ -208,7 +208,8 @@ namespace TicTacToe
         }
         public bool Place()
         {
-
+            UIElements[14].input = ((UIElements[activeElement].x - 20) / 8).ToString();
+            UIElements[15].input = ((UIElements[activeElement].y - 7) / 2).ToString();
             return true;
         }
         public bool Next()
