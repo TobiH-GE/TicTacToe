@@ -155,7 +155,7 @@ namespace TicTacToe
         {
             UIObject active = UIElements[activeElement];
             int found = -1;
-            int foundDistance = 9999;
+            double foundDistance = 9999;
 
             for (int i = 0; i < UIElements.Count; i++)
             {
@@ -194,9 +194,9 @@ namespace TicTacToe
             }
             return found;
         }
-        public int DistanceTo(UIObject uobject)
+        public double DistanceTo(UIObject uobject)
         {
-            return (int)Math.Round(Math.Sqrt(Math.Pow(Math.Abs(uobject.x - UIElements[activeElement].x), 2) + Math.Pow(Math.Abs(uobject.y - UIElements[activeElement].y), 2)));
+            return Math.Sqrt(Math.Pow(Math.Abs(uobject.x - UIElements[activeElement].x), 2) + Math.Pow(Math.Abs(uobject.y - UIElements[activeElement].y), 2));
         }
         public bool Next()
         {
