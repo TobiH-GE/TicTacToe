@@ -20,7 +20,7 @@ namespace TicTacToe
             }
             set
             {
-                int direction = 0;
+                /*int direction = 0;
 
                 if (value > activeElement)
                     direction = 1;
@@ -35,8 +35,11 @@ namespace TicTacToe
                 {
                     value = value + direction;
                     goto checkvalue;
-                }
-                
+                }*/
+
+                if (value >= UIElements.Count) value = 0;
+                if (value < 0) value = UIElements.Count - 1;
+
                 UIElements[activeElement].selected = false;
                 activeElement = value;
                 UIElements[activeElement].selected = true;
@@ -85,18 +88,37 @@ namespace TicTacToe
             UIElements.Add(new UIText(" ╚═══════╩═══════╩═══════╝", 15, 12));
             UIElements.Add(new UIText("enter [0,1,2] or [H] for hint and [ESC] to exit", 5, 15)); // 10 = Infotext
             UIElements.Add(new UIText("", 20, 16)); // 11 = Error
-            UIElements.Add(new UIText("", 5, 16)); // 12 = HintText
-            UIElements.Add(new UIText("", 25, 16)); // 13 = HintSymbol
-            UIElements.Add(new UIInput("X-Position", 5, 17, Next)); // 14 = Input X
-            UIElements.Add(new UIInput("Y-Position", 5, 18, Next)); // 15 = Input Y
-            UIElements.Add(new UIButton("OK", 20, 20, Ok)); // 16 = Ok Button
-            UIElements.Add(new UIButton("Exit", 30, 20, Exit)); // 16 = Exit Button
+            UIElements.Add(new UIText("", 5, 16)); // HintText
+            UIElements.Add(new UIText("", 25, 16)); // HintSymbol
+            UIElements.Add(new UIInput("X-Position", 5, 17, Next)); // Input X
+            UIElements.Add(new UIInput("Y-Position", 5, 18, Next)); // Input Y
+
+            // Debug - ein paar Buttons zum Test
+            UIElements.Add(new UIInput("Test 1", 5, 20, Next));
+            UIElements.Add(new UIInput("Test 2", 5, 21, Next));
+            UIElements.Add(new UIInput("Test 3", 5, 22, Next));
+            UIElements.Add(new UIInput("Test 4", 5, 23, Next));
+            //
+
+            UIElements.Add(new UIButton("OK", 20, 26, Ok)); // Ok Button
+            UIElements.Add(new UIButton("Exit", 30, 26, Exit)); // Exit Button
 
             ActiveElement = 14;
         }
         public override void WaitForInput()
         {
             Draw();
+
+            // Debug - Ausgabe von Infos
+            Console.SetCursorPosition(50, 1);
+            Console.WriteLine(" " + findNextUIElement(Direction.up).ToString() + " ");
+            Console.SetCursorPosition(50, 3);
+            Console.WriteLine(" " + findNextUIElement(Direction.down).ToString() + " ");
+            Console.SetCursorPosition(47, 2);
+            Console.WriteLine(" " + findNextUIElement(Direction.left).ToString() + " ");
+            Console.SetCursorPosition(53, 2);
+            Console.WriteLine(" " + findNextUIElement(Direction.right).ToString() + " ");
+            //
 
             if (Console.KeyAvailable)
             {
@@ -105,10 +127,18 @@ namespace TicTacToe
                 switch (UserInput.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        ActiveElement--;
+                        ActiveElement = findNextUIElement(Direction.up);
+                        //ActiveElement--;
                         break;
                     case ConsoleKey.DownArrow:
-                        ActiveElement++;
+                        ActiveElement = findNextUIElement(Direction.down);
+                        //ActiveElement++;
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        ActiveElement = findNextUIElement(Direction.left);
+                        break;
+                    case ConsoleKey.RightArrow:
+                        ActiveElement = findNextUIElement(Direction.right);
                         break;
                     case ConsoleKey.D0:
                         UIElements[ActiveElement].input = "0";
@@ -139,6 +169,53 @@ namespace TicTacToe
                         break;
                 }
             }
+        }
+        public int findNextUIElement(Direction direction)   // TODO: not complete, not working
+        {
+            UIObject active = UIElements[activeElement];
+            int found = -1;
+            int foundDistance = 9999;
+
+            for (int i = 0; i < UIElements.Count; i++)
+            {
+                if (direction == Direction.up)
+                {
+                    if (UIElements[i].selectable && UIElements[i].y < active.y && DistanceTo(UIElements[i]) < foundDistance)
+                    {
+                        found = i;
+                        foundDistance = DistanceTo(UIElements[i]);
+                    }
+                }
+                else if (direction == Direction.down)
+                {
+                    if (UIElements[i].selectable && UIElements[i].y > active.y && DistanceTo(UIElements[i]) < foundDistance)
+                    {
+                        found = i;
+                        foundDistance = DistanceTo(UIElements[i]);
+                    }
+                }
+                else if (direction == Direction.left)
+                {
+                    if (UIElements[i].selectable && UIElements[i].x < active.x && DistanceTo(UIElements[i]) < foundDistance)
+                    {
+                        found = i;
+                        foundDistance = DistanceTo(UIElements[i]);
+                    }
+                }
+                else if (direction == Direction.right)
+                {
+                    if (UIElements[i].selectable && UIElements[i].x > active.x && DistanceTo(UIElements[i]) < foundDistance)
+                    {
+                        found = i;
+                        foundDistance = DistanceTo(UIElements[i]);
+                    }
+                }
+            }
+            return found;
+        }
+        public int DistanceTo(UIObject uobject)
+        {
+            return (int)Math.Sqrt(Math.Pow(Math.Abs(uobject.x - UIElements[activeElement].x), 2) + Math.Pow(Math.Abs(uobject.y - UIElements[activeElement].y), 2));
         }
         public bool Next()
         {

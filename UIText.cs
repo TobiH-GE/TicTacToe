@@ -14,5 +14,21 @@ namespace TicTacToe
             this.selected = selected;
             base.selectable = false;
         }
+        public override void Draw()
+        {
+            Console.SetCursorPosition(x, y);
+            Console.ForegroundColor = fColor;
+            if (selected)
+            {
+                Console.BackgroundColor = ConsoleColor.Green;
+            }
+            else
+            {
+                Console.BackgroundColor = bColor;
+            }
+
+            Console.Write(text);
+            Console.ResetColor();
+        }
     }   
 }

@@ -19,4 +19,11 @@ namespace TicTacToe
         win,
         tie
     }
+    enum Direction
+    {
+        up,
+        down,
+        left,
+        right
+    }
 }
