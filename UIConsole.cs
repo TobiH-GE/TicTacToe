@@ -215,7 +215,7 @@ namespace TicTacToe
         }
         public int DistanceTo(UIObject uobject)
         {
-            return (int)Math.Sqrt(Math.Pow(Math.Abs(uobject.x - UIElements[activeElement].x), 2) + Math.Pow(Math.Abs(uobject.y - UIElements[activeElement].y), 2));
+            return (int)Math.Round(Math.Sqrt(Math.Pow(Math.Abs(uobject.x - UIElements[activeElement].x), 2) + Math.Pow(Math.Abs(uobject.y - UIElements[activeElement].y), 2)));
         }
         public bool Next()
         {
