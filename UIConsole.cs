@@ -89,7 +89,8 @@ namespace TicTacToe
             UIElements.Add(new UIText("", 25, 16)); // 13 = HintSymbol
             UIElements.Add(new UIInput("X-Position", 5, 17, Next)); // 14 = Input X
             UIElements.Add(new UIInput("Y-Position", 5, 18, Next)); // 15 = Input Y
-            UIElements.Add(new UIButton("OK", 25, 20, Ok)); // 16 = Ok Button
+            UIElements.Add(new UIButton("OK", 20, 20, Ok)); // 16 = Ok Button
+            UIElements.Add(new UIButton("Exit", 30, 20, Exit)); // 16 = Exit Button
 
             ActiveElement = 14;
         }
@@ -149,6 +150,11 @@ namespace TicTacToe
             startTurn(game, input);
             ActiveElement++;
             checkEndGame();
+            return true;
+        }
+        public bool Exit()
+        {
+            game.status = Status.stopped;
             return true;
         }
         public void checkEndGame()
