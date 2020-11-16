@@ -20,9 +20,25 @@ namespace TicTacToe
             }
             set
             {
+                int direction = 0;
+
+                if (value > activeElement)
+                    direction = 1;
+                else if (value < activeElement)
+                    direction = -1;
+
+                checkvalue:
+                if (value >= UIElements.Count) value = 0;
+                if (value < 0) value = UIElements.Count-1;
+
+                if (!UIElements[value].selectable)
+                {
+                    value = value + direction;
+                    goto checkvalue;
+                }
+                
                 UIElements[activeElement].selected = false;
                 activeElement = value;
-                if (ActiveElement > 16) activeElement = 14;
                 UIElements[activeElement].selected = true;
             }
         }
@@ -73,7 +89,7 @@ namespace TicTacToe
             UIElements.Add(new UIText("", 25, 16)); // 13 = HintSymbol
             UIElements.Add(new UIInput("X-Position", 5, 17, Next)); // 14 = Input X
             UIElements.Add(new UIInput("Y-Position", 5, 18, Next)); // 15 = Input Y
-            UIElements.Add(new UIButton("OK", 25, 20, Next)); // 16 = invisible Button
+            UIElements.Add(new UIButton("OK", 25, 20, Ok)); // 16 = Ok Button
 
             ActiveElement = 14;
         }
@@ -104,13 +120,6 @@ namespace TicTacToe
                         break;
                     case ConsoleKey.Enter:
                         UIElements[ActiveElement].Action();
-
-                        if (ActiveElement == 16)
-                        {
-                            startTurn(game, input);
-                            ActiveElement++;
-                        }
-                        checkEndGame();
                         break;
                     case ConsoleKey.H:
                         game.DrawHint();
@@ -133,6 +142,13 @@ namespace TicTacToe
         public bool Next()
         {
             ActiveElement++;
+            return true;
+        }
+        public bool Ok()
+        {
+            startTurn(game, input);
+            ActiveElement++;
+            checkEndGame();
             return true;
         }
         public void checkEndGame()
