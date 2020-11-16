@@ -20,23 +20,6 @@ namespace TicTacToe
             }
             set
             {
-                /*int direction = 0;
-
-                if (value > activeElement)
-                    direction = 1;
-                else if (value < activeElement)
-                    direction = -1;
-
-                checkvalue:
-                if (value >= UIElements.Count) value = 0;
-                if (value < 0) value = UIElements.Count-1;
-
-                if (!UIElements[value].selectable)
-                {
-                    value = value + direction;
-                    goto checkvalue;
-                }*/
-
                 if (value >= UIElements.Count) value = 0;
                 if (value < 0) value = UIElements.Count - 1;
 
@@ -128,11 +111,9 @@ namespace TicTacToe
                 {
                     case ConsoleKey.UpArrow:
                         ActiveElement = findNextUIElement(Direction.up);
-                        //ActiveElement--;
                         break;
                     case ConsoleKey.DownArrow:
                         ActiveElement = findNextUIElement(Direction.down);
-                        //ActiveElement++;
                         break;
                     case ConsoleKey.LeftArrow:
                         ActiveElement = findNextUIElement(Direction.left);
@@ -170,7 +151,7 @@ namespace TicTacToe
                 }
             }
         }
-        public int findNextUIElement(Direction direction)   // TODO: not complete, not working
+        public int findNextUIElement(Direction direction)
         {
             UIObject active = UIElements[activeElement];
             int found = -1;
