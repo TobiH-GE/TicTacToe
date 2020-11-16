@@ -12,6 +12,7 @@ namespace TicTacToe
         public bool selected;
         public bool active;
         public string input;
+        public bool selectable;
 
         public virtual void Draw()
         {

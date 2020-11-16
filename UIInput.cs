@@ -15,6 +15,7 @@ namespace TicTacToe
             this.bColor = bColor;
             this.active = false;
             this.selected = false;
+            base.selectable = true;
         }
         public override void Draw()
         {

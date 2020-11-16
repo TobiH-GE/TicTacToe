@@ -23,10 +23,10 @@ namespace TicTacToe
                 UIElements[activeElement].selected = false;
                 activeElement = value;
                 if (ActiveElement > 16) activeElement = 14;
-                UIElements[activeElement].selected = true;                
+                UIElements[activeElement].selected = true;
             }
         }
-    
+
         public override void PrintStatus(ref Game game)
         {
             UIElements[1] = (new UIText($"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 10, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
@@ -73,7 +73,7 @@ namespace TicTacToe
             UIElements.Add(new UIText("", 25, 16)); // 13 = HintSymbol
             UIElements.Add(new UIInput("X-Position", 5, 17, Next)); // 14 = Input X
             UIElements.Add(new UIInput("Y-Position", 5, 18, Next)); // 15 = Input Y
-            UIElements.Add(new UIButton("", 5, 19)); // 16 = invisible Button
+            UIElements.Add(new UIButton("OK", 25, 20, Next)); // 16 = invisible Button
 
             ActiveElement = 14;
         }
@@ -88,10 +88,10 @@ namespace TicTacToe
                 switch (UserInput.Key)
                 {
                     case ConsoleKey.UpArrow:
-                            
+                        ActiveElement--;
                         break;
                     case ConsoleKey.DownArrow:
-                            
+                        ActiveElement++;
                         break;
                     case ConsoleKey.D0:
                         UIElements[ActiveElement].input = "0";

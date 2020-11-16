@@ -12,6 +12,7 @@ namespace TicTacToe
             this.fColor = fColor;
             this.bColor = bColor;
             this.selected = selected;
+            base.selectable = false;
         }
     }   
 }
