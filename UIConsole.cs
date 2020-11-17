@@ -81,7 +81,8 @@ namespace TicTacToe
             {
                 for (byte x = 0; x <= 2; x++)
                 {
-                    UIElements.Add(new UIButton($"Button {x},{y}", " ", 20 + x * 8, 7 + y * 2, true, () => { Place() ; return true; }));
+                    byte x1 = new byte(); byte y1 = new byte(); x1 = x; y1 = y;
+                    UIElements.Add(new UIButton($"Button {x},{y}", " ", 20 + x * 8, 7 + y * 2, true, () => { Place(y1 ,x1) ; return true; }));
                 }
             }
 
@@ -214,10 +215,10 @@ namespace TicTacToe
         {
             return Math.Sqrt(Math.Pow(uobject.x - UIElements[activeElement].x, 2) + Math.Pow((uobject.y - UIElements[activeElement].y) * 2, 2)); // * 2 Hack, vertikale Distanz optisch grösser als rechnerische Distanz
         }
-        public bool Place()
+        public bool Place(byte y, byte x)
         {
-            UIElements[GetUIElementByName("X-Position")].input = ((UIElements[activeElement].x - 20) / 8).ToString();
-            UIElements[GetUIElementByName("Y-Position")].input = ((UIElements[activeElement].y - 7) / 2).ToString();
+            UIElements[GetUIElementByName("X-Position")].input = x.ToString();
+            UIElements[GetUIElementByName("Y-Position")].input = y.ToString();
             ActiveElement = GetUIElementByName("Ok"); ; 
             return true;
         }
