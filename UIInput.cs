@@ -2,20 +2,13 @@
 
 namespace TicTacToe
 {
-    class UIInput : UIObject //TODO: string name
+    class UIInput : UIObject
     {
         Func<bool> methodName;
-        public UIInput(string text, int x, int y, Func<bool> methodName, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false)
+        public UIInput(string text, int x, int y, Func<bool> methodName, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false) : base (text, x, y, methodName, fColor, bColor, selected)
         {
-            this.text = text;
-            this.x = x;
-            this.y = y;
             this.methodName = methodName;
-            this.fColor = fColor;
-            this.bColor = bColor;
-            this.selected = false;
-            this.active = true;
-            base.selectable = true;
+            selectable = true;
         }
         public override void Draw()
         {

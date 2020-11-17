@@ -4,16 +4,9 @@ namespace TicTacToe
 {
     class UIText : UIObject
     {
-        public UIText(string text, int x, int y, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false)
+        public UIText(string text, int x, int y, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false) : base(text, x, y, fColor, bColor, selected)
         {
-            this.text = text;
-            this.x = x;
-            this.y = y;
-            this.fColor = fColor;
-            this.bColor = bColor;
-            this.selected = selected;
-            this.active = true;
-            base.selectable = false;
+            selectable = false;
         }
         public override void Draw()
         {
