@@ -53,7 +53,7 @@ namespace TicTacToe
                 UIElements[13] = (new UIText("H", 20 + x * 8, 7 + y * 2, ConsoleColor.DarkGray, ConsoleColor.Black));
             }
         }
-        public override void Start()
+        public override void Start() //TODO: alle Objekte, die nicht gezeichnet werden müssen auf active = false
         {
             Console.Clear();
             Console.CursorVisible = false;
@@ -264,7 +264,7 @@ namespace TicTacToe
 
             for (int i = 0; i < UIElements.Count; i++)
             {
-                UIElements[i].Draw();
+                if (UIElements[i].active) UIElements[i].Draw();
             }
         }
     }
