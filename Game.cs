@@ -20,11 +20,11 @@
         {
             return board;
         }
-        public bool getPlayerID()
+        public bool GetPlayerID()
         {
             return currentPlayerID;
         }
-        public TurnResult turn(Point point)     // Spielzug ausführen und TurnResult zurückgeben
+        public TurnResult Turn(Point point)     // Spielzug ausführen und TurnResult zurückgeben
         {
             if (board[point.y, point.x] != FieldState.Empty)    // Brett an y.x nicht leer?
             {
@@ -33,7 +33,7 @@
 
             board[point.y, point.x] = (currentPlayerID ? FieldState.X : FieldState.O);      // Brett mit Spielstein des Spielers belegen
 
-            if (checkWin(board[point.y, point.x]))      // Gewonnen?
+            if (CheckWin(board[point.y, point.x]))      // Gewonnen?
             {
                 turnNumber = 11;                        // Runde auf 11 heisst gewonnen
                 return TurnResult.Win;
@@ -45,7 +45,7 @@
             return TurnResult.Valid;        // zurück, Spielzug ok
         }
 
-        private bool checkWin(FieldState playerFieldState, byte checkValue = 3) // zum Test ob 2 oder 3 Steine in Reihe liegen
+        private bool CheckWin(FieldState playerFieldState, byte checkValue = 3) // zum Test ob 2 oder 3 Steine in Reihe liegen
         {
             byte counterX;                     // für den horizontalen Test  
             byte counterY;                     // für den vertikalen Test
@@ -145,7 +145,7 @@
                     {
                         board[y, x] = fState;   // ein Teststein setzen
 
-                        if (checkWin(fState, checkValue))   // testen auf 2er oder 3er (checkValue) Reihe
+                        if (CheckWin(fState, checkValue))   // testen auf 2er oder 3er (checkValue) Reihe
                         {
                             if (checkValue == 3) // es wurde auf 3 Steine getestet
                             {

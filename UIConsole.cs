@@ -103,13 +103,13 @@ namespace TicTacToe
 
             // Debug - Ausgabe von Infos
             Console.SetCursorPosition(50, 1);
-            Console.WriteLine(" " + findNextUIElement(Direction.Up).ToString() + " ");
+            Console.WriteLine(" " + FindNextUIElement(Direction.Up).ToString() + " ");
             Console.SetCursorPosition(50, 3);
-            Console.WriteLine(" " + findNextUIElement(Direction.Down).ToString() + " ");
+            Console.WriteLine(" " + FindNextUIElement(Direction.Down).ToString() + " ");
             Console.SetCursorPosition(47, 2);
-            Console.WriteLine(" " + findNextUIElement(Direction.Left).ToString() + " ");
+            Console.WriteLine(" " + FindNextUIElement(Direction.Left).ToString() + " ");
             Console.SetCursorPosition(53, 2);
-            Console.WriteLine(" " + findNextUIElement(Direction.Right).ToString() + " ");
+            Console.WriteLine(" " + FindNextUIElement(Direction.Right).ToString() + " ");
             //
 
             if (Console.KeyAvailable)
@@ -119,16 +119,16 @@ namespace TicTacToe
                 switch (UserInput.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        ActiveElement = findNextUIElement(Direction.Up);
+                        ActiveElement = FindNextUIElement(Direction.Up);
                         break;
                     case ConsoleKey.DownArrow:
-                        ActiveElement = findNextUIElement(Direction.Down);
+                        ActiveElement = FindNextUIElement(Direction.Down);
                         break;
                     case ConsoleKey.LeftArrow:
-                        ActiveElement = findNextUIElement(Direction.Left);
+                        ActiveElement = FindNextUIElement(Direction.Left);
                         break;
                     case ConsoleKey.RightArrow:
-                        ActiveElement = findNextUIElement(Direction.Right);
+                        ActiveElement = FindNextUIElement(Direction.Right);
                         break;
                     case ConsoleKey.D0:
                         UIElements[ActiveElement].input = "0";
@@ -161,7 +161,7 @@ namespace TicTacToe
                 }
             }
         }
-        public int findNextUIElement(Direction direction)
+        public int FindNextUIElement(Direction direction)
         {
             UIObject active = UIElements[activeElement];
             int found = -1;
@@ -228,14 +228,14 @@ namespace TicTacToe
         }
         public bool Next()
         {
-            ActiveElement = findNextUIElement(Direction.Down);
+            ActiveElement = FindNextUIElement(Direction.Down);
             return true;
         }
         public bool Ok()
         {
-            startTurn(game, input);
+            StartTurn(game, input);
             ActiveElement = GetUIElementByName("X-Position");
-            checkEndGame();
+            CheckEndGame();
             return true;
         }
         public bool Exit()
@@ -243,7 +243,7 @@ namespace TicTacToe
             game.status = Status.Stopped;
             return true;
         }
-        public void checkEndGame()
+        public void CheckEndGame()
         {
             if (game.turnNumber == 10)
             {
@@ -256,12 +256,12 @@ namespace TicTacToe
                 UIElements[GetUIElementByName("Status")] = (new UIText("Status", $">>> {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] wins! try again? [y/ESC] <<<", 10, 2, true, (game.currentPlayerID ? pColor[0] : pColor[1])));
             }
         }
-        public void startTurn(Game game, Point input)
+        public void StartTurn(Game game, Point input)
         {
             sbyte.TryParse(UIElements[14].input, out input.x);
             sbyte.TryParse(UIElements[15].input, out input.y);
 
-            if (game.turn(input) == TurnResult.Invalid)
+            if (game.Turn(input) == TurnResult.Invalid)
             {
                 UIElements[11].text = "invalid!";
             }
