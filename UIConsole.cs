@@ -81,7 +81,7 @@ namespace TicTacToe
             {
                 for (byte x = 0; x <= 2; x++)
                 {
-                    UIElements.Add(new UIButton($" ", 20 + x * 8, 7 + y * 2, Place));
+                    UIElements.Add(new UIButton($" ", 20 + x * 8, 7 + y * 2, () => { Place() ; return true; }));
                 }
             }
 
@@ -145,7 +145,7 @@ namespace TicTacToe
                     case ConsoleKey.H:
                         game.DrawHint();
                         break;
-                    case ConsoleKey.Y:          // TODO: neue Bug! entfernen!
+                    case ConsoleKey.Y:          // TODO: neuer Bug! entfernen!
                         if (game.status == Status.tie || game.status == Status.win)
                         {
                             UIElements.Clear();
@@ -242,7 +242,7 @@ namespace TicTacToe
             else if (game.turnNumber >= 11)
             {
                 game.status = Status.win;
-                UIElements[12].text = "win! try again? [y/ESC]";
+                UIElements[10].text = "win! try again? [y/ESC]";
             }
         }
         public void startTurn(Game game, Point input)
