@@ -74,12 +74,12 @@ namespace TicTacToe
             UIElements.Add(new UIText("", 5, 16)); // HintText
             UIElements.Add(new UIText("", 25, 16)); // HintSymbol
             UIElements.Add(new UIInput("X-Position", 5, 17, Next)); // Input X
-            UIElements.Add(new UIInput("Y-Position", 5, 18, Next)); // Input Y
+            UIElements.Add(new UIInput("Y-Position", 5, 18, () => { ActiveElement = 29; return true; })); // Input Y
 
             // Buttons für das Spielbrett
-            for (int y = 0; y <= 2; y++)
+            for (byte y = 0; y <= 2; y++)
             {
-                for (int x = 0; x <= 2; x++)
+                for (byte x = 0; x <= 2; x++)
                 {
                     UIElements.Add(new UIButton($" ", 20 + x * 8, 7 + y * 2, Place));
                 }
@@ -209,8 +209,10 @@ namespace TicTacToe
         }
         public bool Place()
         {
+            // TODO: UIButtons anhand des Namens finden, string name muss noch eingebaut werden
             UIElements[14].input = ((UIElements[activeElement].x - 20) / 8).ToString();
             UIElements[15].input = ((UIElements[activeElement].y - 7) / 2).ToString();
+            ActiveElement = 29; 
             return true;
         }
         public bool Next()
