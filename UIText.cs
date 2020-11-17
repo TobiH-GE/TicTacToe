@@ -4,7 +4,7 @@ namespace TicTacToe
 {
     class UIText : UIObject
     {
-        public UIText(string name, string text, int x, int y, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false) : base(name, text, x, y, fColor, bColor, selected)
+        public UIText(string name, string text, int x, int y, bool visible = true, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false) : base(name, text, x, y, visible, fColor, bColor, selected)
         {
             selectable = false;
         }

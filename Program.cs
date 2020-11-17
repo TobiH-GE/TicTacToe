@@ -17,6 +17,8 @@ namespace TicTacToe
             {
                 UIGame.WaitForInput();
             } while (game.status != Status.stopped);
+
+        Console.Clear();
         }
     }
 }

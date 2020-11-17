@@ -6,7 +6,7 @@ namespace TicTacToe
     {
         Func<bool> methodName;
 
-        public UIButton(string name, string text, int x, int y, Func<bool> methodName, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false) : base (name, text, x, y, fColor, bColor, selected)
+        public UIButton(string name, string text, int x, int y, bool visible = true, Func<bool> methodName = null, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false) : base (name, text, x, y, visible, fColor, bColor, selected)
         {
             this.methodName = methodName;
             selectable = true;

@@ -31,26 +31,26 @@ namespace TicTacToe
 
         public override void PrintStatus(ref Game game)
         {
-            UIElements[1] = (new UIText("Status", $"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 10, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
+            UIElements[GetUIElementByName("Status")] = (new UIText("Status", $"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 10, 2, true, (game.currentPlayerID ? pColor[0] : pColor[1])));
         }
         public override void PrintError(string str)
         {
-            UIElements[11].text = str;
+            UIElements[GetUIElementByName("Error")].text = str;
         }
         public override void PrintInfo(string str)
         {
-            UIElements[10].text = str;
+            UIElements[GetUIElementByName("Hint")].text = str;
         }
         public override void PrintHint(sbyte x, sbyte y)
         {
             if (x == -1) // wenn x/y = -1 dann ist kein Hint vorhanden
             {
-                UIElements[GetUIElementByName("Hint")] = (new UIText("Hint", "Hint: *, *", 5, 16, ConsoleColor.DarkGray, ConsoleColor.Black));
+                UIElements[GetUIElementByName("Hint")] = (new UIText("Hint", "Hint: *, *", 5, 16, true, ConsoleColor.DarkGray, ConsoleColor.Black));
             }
             else
             {
-                UIElements[GetUIElementByName("Hint")] = (new UIText("Hint", $"Hint: {x}, {y}", 5, 16, ConsoleColor.DarkGray, ConsoleColor.Black));
-                UIElements[GetUIElementByName("HintSymbol")] = (new UIText("HintSymbol", "H", 20 + x * 8, 7 + y * 2, ConsoleColor.DarkGray, ConsoleColor.Black));
+                UIElements[GetUIElementByName("Hint")] = (new UIText("Hint", $"Hint: {x}, {y}", 5, 16, true, ConsoleColor.DarkGray, ConsoleColor.Black));
+                UIElements[GetUIElementByName("HintSymbol")] = (new UIText("HintSymbol", "H", 20 + x * 8, 7 + y * 2, true, ConsoleColor.DarkGray, ConsoleColor.Black));
             }
         }
         public override void Start() //TODO: alle Objekte, die nicht gezeichnet werden müssen auf visible = false
@@ -60,7 +60,7 @@ namespace TicTacToe
             game.status = Status.started;
 
             UIElements.Add(new UIText("Titel", "TicTacToe by TobiH ", 20, 0));
-            UIElements.Add(new UIText("Status", $"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 10, 2, (game.currentPlayerID ? pColor[0] : pColor[1])));
+            UIElements.Add(new UIText("Status", $"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 10, 2, true, (game.currentPlayerID ? pColor[0] : pColor[1])));
             UIElements.Add(new UIText("", "     0       1       2", 15, 5));
             UIElements.Add(new UIText("", " ╔═══════╦═══════╦═══════╗", 15, 6));
             UIElements.Add(new UIText("", "0║\t║\t║\t║", 15, 7));
@@ -73,27 +73,27 @@ namespace TicTacToe
             UIElements.Add(new UIText("Error", "", 20, 16));
             UIElements.Add(new UIText("Hint", "", 5, 16));
             UIElements.Add(new UIText("HintSymbol", "", 25, 16));
-            UIElements.Add(new UIInput("X-Position", "X-Position", 5, 17, Next));
-            UIElements.Add(new UIInput("Y-Position", "Y-Position", 5, 18, () => { ActiveElement = GetUIElementByName("Ok"); return true; }));
+            UIElements.Add(new UIInput("X-Position", "X-Position", 5, 17, true, Next));
+            UIElements.Add(new UIInput("Y-Position", "Y-Position", 5, 18, true, () => { ActiveElement = GetUIElementByName("Ok"); return true; }));
 
             // Buttons für das Spielbrett
             for (byte y = 0; y <= 2; y++)
             {
                 for (byte x = 0; x <= 2; x++)
                 {
-                    UIElements.Add(new UIButton($"Button {x},{y}", " ", 20 + x * 8, 7 + y * 2, () => { Place() ; return true; }));
+                    UIElements.Add(new UIButton($"Button {x},{y}", " ", 20 + x * 8, 7 + y * 2, true, () => { Place() ; return true; }));
                 }
             }
 
             // Debug - ein paar Buttons zum Test
-            UIElements.Add(new UIInput("","Test 1", 5, 20, Next));
-            UIElements.Add(new UIInput("","Test 2", 5, 21, Next));
-            UIElements.Add(new UIInput("","Test 3", 5, 22, Next));
-            UIElements.Add(new UIInput("","Test 4", 5, 23, Next));
+            UIElements.Add(new UIInput("","Test 1", 5, 20, true, Next));
+            UIElements.Add(new UIInput("","Test 2", 5, 21, true, Next));
+            UIElements.Add(new UIInput("","Test 3", 5, 22, true, Next));
+            UIElements.Add(new UIInput("","Test 4", 5, 23, true, Next));
             //
 
-            UIElements.Add(new UIButton("Ok", "OK", 20, 26, Ok));
-            UIElements.Add(new UIButton("Exit", "Exit", 30, 26, Exit));
+            UIElements.Add(new UIButton("Ok", "OK", 20, 26, true, Ok));
+            UIElements.Add(new UIButton("Exit", "Exit", 30, 26, true, Exit));
             ActiveElement = 14;
         }
         public override void WaitForInput()
@@ -218,7 +218,7 @@ namespace TicTacToe
         {
             UIElements[GetUIElementByName("X-Position")].input = ((UIElements[activeElement].x - 20) / 8).ToString();
             UIElements[GetUIElementByName("Y-Position")].input = ((UIElements[activeElement].y - 7) / 2).ToString();
-            ActiveElement = 29; 
+            ActiveElement = GetUIElementByName("Ok"); ; 
             return true;
         }
         public bool Next()
@@ -243,12 +243,12 @@ namespace TicTacToe
             if (game.turnNumber == 10)
             {
                 game.status = Status.tie;
-                UIElements[GetUIElementByName("Info")].text = "tie! try again? [y/ESC]";
+                UIElements[GetUIElementByName("Status")].text = "               >>>     tie! try again? [y/ESC]     <<<               ";
             }
             else if (game.turnNumber >= 11)
             {
                 game.status = Status.win;
-                UIElements[GetUIElementByName("Info")].text = "win! try again? [y/ESC]";
+                UIElements[GetUIElementByName("Status")] = (new UIText("Status", $">>> {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] wins! try again? [y/ESC] <<<", 10, 2, true, (game.currentPlayerID ? pColor[0] : pColor[1])));
             }
         }
         public void startTurn(Game game, Point input)
@@ -262,11 +262,12 @@ namespace TicTacToe
             }
             else
             {
+                UIElements[GetUIElementByName($"Button {input.x},{input.y}")].visible = false;
                 UIElements[GetUIElementByName("X-Position")].input = " ";
                 UIElements[GetUIElementByName("Y-Position")].input = " ";
                 UIElements[GetUIElementByName("HintSymbol")].visible = false;
                 UIElements[GetUIElementByName("Hint")].text = "          ";
-                UIElements.Add(new UIText($"Board {input.x},{input.y}", $"{game.board[input.y, input.x]}", 20 + input.x * 8, 7 + input.y * 2, (game.board[input.y, input.x] == FieldState.X ? pColor[0] : pColor[1])));
+                UIElements.Add(new UIText($"Board {input.x},{input.y}", $"{game.board[input.y, input.x]}", 20 + input.x * 8, 7 + input.y * 2, true, (game.board[input.y, input.x] == FieldState.X ? pColor[0] : pColor[1])));
                 PrintStatus(ref game);
             }
         }
