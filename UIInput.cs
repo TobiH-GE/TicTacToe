@@ -5,7 +5,7 @@ namespace TicTacToe
     class UIInput : UIObject
     {
         Func<bool> methodName;
-        public UIInput(string text, int x, int y, Func<bool> methodName, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false) : base (text, x, y, methodName, fColor, bColor, selected)
+        public UIInput(string text, int x, int y, Func<bool> methodName, ConsoleColor fColor = ConsoleColor.White, ConsoleColor bColor = ConsoleColor.Black, bool selected = false) : base (text, x, y, fColor, bColor, selected)
         {
             this.methodName = methodName;
             selectable = true;

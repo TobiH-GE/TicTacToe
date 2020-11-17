@@ -76,6 +76,7 @@ namespace TicTacToe
             UIElements.Add(new UIInput("X-Position", 5, 17, Next)); // Input X
             UIElements.Add(new UIInput("Y-Position", 5, 18, Next)); // Input Y
 
+            // Buttons für das Spielbrett
             for (int y = 0; y <= 2; y++)
             {
                 for (int x = 0; x <= 2; x++)
@@ -144,7 +145,7 @@ namespace TicTacToe
                     case ConsoleKey.H:
                         game.DrawHint();
                         break;
-                    case ConsoleKey.Y:
+                    case ConsoleKey.Y:          // TODO: neue Bug! entfernen!
                         if (game.status == Status.tie || game.status == Status.win)
                         {
                             UIElements.Clear();
