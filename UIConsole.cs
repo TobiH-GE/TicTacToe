@@ -53,7 +53,7 @@ namespace TicTacToe
                 UIElements[GetUIElementByName("HintSymbol")] = (new UIText("HintSymbol", "H", 20 + x * 8, 7 + y * 2, ConsoleColor.DarkGray, ConsoleColor.Black));
             }
         }
-        public override void Start() //TODO: alle Objekte, die nicht gezeichnet werden müssen auf active = false
+        public override void Start() //TODO: alle Objekte, die nicht gezeichnet werden müssen auf visible = false
         {
             Console.Clear();
             Console.CursorVisible = false;
@@ -74,7 +74,7 @@ namespace TicTacToe
             UIElements.Add(new UIText("Hint", "", 5, 16));
             UIElements.Add(new UIText("HintSymbol", "", 25, 16));
             UIElements.Add(new UIInput("X-Position", "X-Position", 5, 17, Next));
-            UIElements.Add(new UIInput("Y-Position", "Y-Position", 5, 18, () => { ActiveElement = 29; return true; }));
+            UIElements.Add(new UIInput("Y-Position", "Y-Position", 5, 18, () => { ActiveElement = GetUIElementByName("Ok"); return true; }));
 
             // Buttons für das Spielbrett
             for (byte y = 0; y <= 2; y++)
@@ -216,9 +216,8 @@ namespace TicTacToe
         }
         public bool Place()
         {
-            // TODO: UIButtons anhand des Namens finden, string name muss noch eingebaut werden
-            UIElements[14].input = ((UIElements[activeElement].x - 20) / 8).ToString();
-            UIElements[15].input = ((UIElements[activeElement].y - 7) / 2).ToString();
+            UIElements[GetUIElementByName("X-Position")].input = ((UIElements[activeElement].x - 20) / 8).ToString();
+            UIElements[GetUIElementByName("Y-Position")].input = ((UIElements[activeElement].y - 7) / 2).ToString();
             ActiveElement = 29; 
             return true;
         }
@@ -230,7 +229,7 @@ namespace TicTacToe
         public bool Ok()
         {
             startTurn(game, input);
-            ActiveElement++;
+            ActiveElement = GetUIElementByName("X-Position");
             checkEndGame();
             return true;
         }
