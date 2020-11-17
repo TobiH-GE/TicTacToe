@@ -2,7 +2,7 @@
 
 namespace TicTacToe
 {
-    public class UIObject //TODO: string name
+    public class UIObject
     {
         public string name;
         public string text;

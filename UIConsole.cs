@@ -53,11 +53,11 @@ namespace TicTacToe
                 UIElements[GetUIElementByName("HintSymbol")] = (new UIText("HintSymbol", "H", 20 + x * 8, 7 + y * 2, true, ConsoleColor.DarkGray, ConsoleColor.Black));
             }
         }
-        public override void Start() //TODO: alle Objekte, die nicht gezeichnet werden müssen auf visible = false
+        public override void Start()
         {
             Console.Clear();
             Console.CursorVisible = false;
-            game.status = Status.started;
+            game.status = Status.Started;
 
             UIElements.Add(new UIText("Titel", "TicTacToe by TobiH ", 20, 0));
             UIElements.Add(new UIText("Status", $"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 10, 2, true, (game.currentPlayerID ? pColor[0] : pColor[1])));
@@ -103,13 +103,13 @@ namespace TicTacToe
 
             // Debug - Ausgabe von Infos
             Console.SetCursorPosition(50, 1);
-            Console.WriteLine(" " + findNextUIElement(Direction.up).ToString() + " ");
+            Console.WriteLine(" " + findNextUIElement(Direction.Up).ToString() + " ");
             Console.SetCursorPosition(50, 3);
-            Console.WriteLine(" " + findNextUIElement(Direction.down).ToString() + " ");
+            Console.WriteLine(" " + findNextUIElement(Direction.Down).ToString() + " ");
             Console.SetCursorPosition(47, 2);
-            Console.WriteLine(" " + findNextUIElement(Direction.left).ToString() + " ");
+            Console.WriteLine(" " + findNextUIElement(Direction.Left).ToString() + " ");
             Console.SetCursorPosition(53, 2);
-            Console.WriteLine(" " + findNextUIElement(Direction.right).ToString() + " ");
+            Console.WriteLine(" " + findNextUIElement(Direction.Right).ToString() + " ");
             //
 
             if (Console.KeyAvailable)
@@ -119,16 +119,16 @@ namespace TicTacToe
                 switch (UserInput.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        ActiveElement = findNextUIElement(Direction.up);
+                        ActiveElement = findNextUIElement(Direction.Up);
                         break;
                     case ConsoleKey.DownArrow:
-                        ActiveElement = findNextUIElement(Direction.down);
+                        ActiveElement = findNextUIElement(Direction.Down);
                         break;
                     case ConsoleKey.LeftArrow:
-                        ActiveElement = findNextUIElement(Direction.left);
+                        ActiveElement = findNextUIElement(Direction.Left);
                         break;
                     case ConsoleKey.RightArrow:
-                        ActiveElement = findNextUIElement(Direction.right);
+                        ActiveElement = findNextUIElement(Direction.Right);
                         break;
                     case ConsoleKey.D0:
                         UIElements[ActiveElement].input = "0";
@@ -145,15 +145,16 @@ namespace TicTacToe
                     case ConsoleKey.H:
                         game.DrawHint();
                         break;
-                    case ConsoleKey.Y:          // TODO: neuer Bug! entfernen!
-                        if (game.status == Status.tie || game.status == Status.win)
+                    case ConsoleKey.Y:
+                        if (game.status == Status.Tie || game.status == Status.Win)
                         {
                             UIElements.Clear();
-                            game = new Game(this);
+                            game.ResetBoard();
+                            Start();
                         }
                         break;
                     case ConsoleKey.Escape:
-                        game.status = Status.stopped;
+                        game.status = Status.Stopped;
                         break;
                     default:
                         break;
@@ -168,36 +169,39 @@ namespace TicTacToe
 
             for (int i = 0; i < UIElements.Count; i++)
             {
-                if (direction == Direction.up)
+                if (UIElements[i].visible && UIElements[i].selectable)
                 {
-                    if (UIElements[i].selectable && UIElements[i].y < active.y && DistanceTo(UIElements[i]) < foundDistance)
+                    if (direction == Direction.Up)
                     {
-                        found = i;
-                        foundDistance = DistanceTo(UIElements[i]);
+                        if (UIElements[i].y < active.y && DistanceTo(UIElements[i]) < foundDistance)
+                        {
+                            found = i;
+                            foundDistance = DistanceTo(UIElements[i]);
+                        }
                     }
-                }
-                else if (direction == Direction.down)
-                {
-                    if (UIElements[i].selectable && UIElements[i].y > active.y && DistanceTo(UIElements[i]) < foundDistance)
+                    else if (direction == Direction.Down)
                     {
-                        found = i;
-                        foundDistance = DistanceTo(UIElements[i]);
+                        if (UIElements[i].y > active.y && DistanceTo(UIElements[i]) < foundDistance)
+                        {
+                            found = i;
+                            foundDistance = DistanceTo(UIElements[i]);
+                        }
                     }
-                }
-                else if (direction == Direction.left)
-                {
-                    if (UIElements[i].selectable && UIElements[i].x < active.x && DistanceTo(UIElements[i]) < foundDistance)
+                    else if (direction == Direction.Left)
                     {
-                        found = i;
-                        foundDistance = DistanceTo(UIElements[i]);
+                        if (UIElements[i].x < active.x && DistanceTo(UIElements[i]) < foundDistance)
+                        {
+                            found = i;
+                            foundDistance = DistanceTo(UIElements[i]);
+                        }
                     }
-                }
-                else if (direction == Direction.right)
-                {
-                    if (UIElements[i].selectable && UIElements[i].x > active.x && DistanceTo(UIElements[i]) < foundDistance)
+                    else if (direction == Direction.Right)
                     {
-                        found = i;
-                        foundDistance = DistanceTo(UIElements[i]);
+                        if (UIElements[i].x > active.x && DistanceTo(UIElements[i]) < foundDistance)
+                        {
+                            found = i;
+                            foundDistance = DistanceTo(UIElements[i]);
+                        }
                     }
                 }
             }
@@ -224,7 +228,7 @@ namespace TicTacToe
         }
         public bool Next()
         {
-            ActiveElement++;
+            ActiveElement = findNextUIElement(Direction.Down);
             return true;
         }
         public bool Ok()
@@ -236,19 +240,19 @@ namespace TicTacToe
         }
         public bool Exit()
         {
-            game.status = Status.stopped;
+            game.status = Status.Stopped;
             return true;
         }
         public void checkEndGame()
         {
             if (game.turnNumber == 10)
             {
-                game.status = Status.tie;
+                game.status = Status.Tie;
                 UIElements[GetUIElementByName("Status")].text = "               >>>     tie! try again? [y/ESC]     <<<               ";
             }
             else if (game.turnNumber >= 11)
             {
-                game.status = Status.win;
+                game.status = Status.Win;
                 UIElements[GetUIElementByName("Status")] = (new UIText("Status", $">>> {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] wins! try again? [y/ESC] <<<", 10, 2, true, (game.currentPlayerID ? pColor[0] : pColor[1])));
             }
         }

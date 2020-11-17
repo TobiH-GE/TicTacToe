@@ -170,7 +170,16 @@
         }
         public void ResetBoard()
         {
+            turnNumber = 1;
+            currentPlayerID = false;
 
+            for (byte y = 0; y <= 2; y++)
+            {
+                for (byte x = 0; x <= 2; x++)
+                {
+                    board[y, x] = FieldState.Empty;
+                }
+            }
         }   
     }
 }

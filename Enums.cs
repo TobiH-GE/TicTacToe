@@ -14,16 +14,10 @@ namespace TicTacToe
     }
     enum Status
     {
-        started,
-        stopped,
-        win,
-        tie
+        Started, Stopped, Win, Tie
     }
     enum Direction
     {
-        up,
-        down,
-        left,
-        right
+        Up, Down, Left, Right
     }
 }
