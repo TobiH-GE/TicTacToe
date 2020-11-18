@@ -69,7 +69,7 @@ namespace TicTacToe
             UIElements.Add(new UIText("", " ╠═══════╬═══════╬═══════╣", 15, 10));
             UIElements.Add(new UIText("", "2║\t║\t║\t║", 15, 11));
             UIElements.Add(new UIText("", " ╚═══════╩═══════╩═══════╝", 15, 12));
-            UIElements.Add(new UIText("Info", "enter [0,1,2] or [H] for hint and [ESC] to exit", 5, 15));
+            UIElements.Add(new UIText("Info", "enter [0,1,2] or [H] for hint, [<>^v] for navigation and [ESC] to exit", 5, 15));
             UIElements.Add(new UIText("Error", "", 20, 16));
             UIElements.Add(new UIText("Hint", "", 5, 16));
             UIElements.Add(new UIText("HintSymbol", "", 25, 16));
