@@ -6,7 +6,7 @@ namespace TicTacToe
 {
     enum FieldState
     {
-        Empty, X, O, Hint
+        Empty, X, O, Hint, Blocked
     }
     enum TurnResult
     {

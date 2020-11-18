@@ -4,7 +4,8 @@ namespace TicTacToe
 {
     struct Point
     {
-        public sbyte x, y;
+        public sbyte x;
+        public sbyte y;
     }
     class Program                               // *** TicTacToe von TobiH ***
     {

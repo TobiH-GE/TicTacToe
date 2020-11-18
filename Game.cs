@@ -158,7 +158,22 @@
                             {
                                 returnHint = GetHint(3, fState); // testen ob mit 3. Stein Gewinn möglich, Funktion ruft sich selbst auf
                                 board[y, x] = FieldState.Empty; // 2. Teststein wieder vom Feld löschen
-                                if (returnHint.x != -1) return returnHint; // Gewinn mit 3. möglich
+                                if (returnHint.x != -1)
+                                {
+                                    board[y, x] = FieldState.Blocked;
+                                    Point returnHint2 = GetHint(3, fState); // testen, ob es noch eine bessere, unschlagbare Position gibt
+
+                                    if (returnHint2.x != -1)
+                                    {
+                                        board[y, x] = FieldState.Empty;
+                                        return returnHint2; // Gewinn mit 3. garantiert
+                                    }
+                                    else
+                                    {
+                                        board[y, x] = FieldState.Empty;
+                                        return returnHint; // Gewinn mit 3. möglich
+                                    }
+                                }
                             }
                         }
                         board[y, x] = FieldState.Empty; // kein Gewinn möglich, Teststein wieder vom Feld löschen
