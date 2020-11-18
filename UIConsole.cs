@@ -171,17 +171,38 @@ namespace TicTacToe
             {
                 if (UIElements[i].visible && UIElements[i].selectable)
                 {
-                    if (direction == Direction.Up && UIElements[i].y < active.y)
-                    {}
-                    else if (direction == Direction.Down && UIElements[i].y > active.y)
-                    {}
-                    else if (direction == Direction.Left && UIElements[i].x < active.x)
-                    {}
-                    else if (direction == Direction.Right && UIElements[i].x > active.x)
-                    {}
-                    else
-                        continue;
-                    if (DistanceTo(UIElements[i]) < foundDistance) found = i; foundDistance = DistanceTo(UIElements[i]);
+                    if (direction == Direction.Up)
+                    {
+                        if (UIElements[i].y < active.y && DistanceTo(UIElements[i]) < foundDistance)
+                        {
+                            found = i;
+                            foundDistance = DistanceTo(UIElements[i]);
+                        }
+                    }
+                    else if (direction == Direction.Down)
+                    {
+                        if (UIElements[i].y > active.y && DistanceTo(UIElements[i]) < foundDistance)
+                        {
+                            found = i;
+                            foundDistance = DistanceTo(UIElements[i]);
+                        }
+                    }
+                    else if (direction == Direction.Left)
+                    {
+                        if (UIElements[i].x < active.x && DistanceTo(UIElements[i]) < foundDistance)
+                        {
+                            found = i;
+                            foundDistance = DistanceTo(UIElements[i]);
+                        }
+                    }
+                    else if (direction == Direction.Right)
+                    {
+                        if (UIElements[i].x > active.x && DistanceTo(UIElements[i]) < foundDistance)
+                        {
+                            found = i;
+                            foundDistance = DistanceTo(UIElements[i]);
+                        }
+                    }
                 }
             }
             return found;

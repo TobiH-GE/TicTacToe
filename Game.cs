@@ -159,22 +159,19 @@
                             if (checkValue == 2) // es wurde auf 2 Steine getestet
                             {
                                 returnHint = GetHint(3, fState); // testen ob mit 3. Stein Gewinn möglich, Funktion ruft sich selbst auf
-                                board[y, x] = FieldState.Empty; // 2. Teststein wieder vom Feld löschen
+                                //board[y, x] = FieldState.Empty; // 2. Teststein wieder vom Feld löschen
                                 if (returnHint.x != -1)
                                 {
-                                    board[y, x] = FieldState.Blocked;
+                                    //board[y, x] = fState;
                                     returnHint2.x = x;
                                     returnHint2.y = y;
                                     returnHint = GetHint(3, fState); // testen, ob es noch eine bessere, unschlagbare Position gibt
 
+                                    board[y, x] = FieldState.Empty;
+
                                     if (returnHint.x != -1)
                                     {
-                                        board[y, x] = FieldState.Empty;
                                         return returnHint; // Gewinn mit 3. garantiert
-                                    }
-                                    else
-                                    {
-                                        board[y, x] = FieldState.Empty;
                                     }
                                 }
                             }
