@@ -171,37 +171,25 @@ namespace TicTacToe
             {
                 if (UIElements[i].visible && UIElements[i].selectable)
                 {
-                    if (direction == Direction.Up)
+                    if (direction == Direction.Up && UIElements[i].y < active.y && DistanceTo(UIElements[i]) < foundDistance)
                     {
-                        if (UIElements[i].y < active.y && DistanceTo(UIElements[i]) < foundDistance)
-                        {
-                            found = i;
-                            foundDistance = DistanceTo(UIElements[i]);
-                        }
+                        found = i;
+                        foundDistance = DistanceTo(UIElements[i]);
                     }
-                    else if (direction == Direction.Down)
+                    else if (direction == Direction.Down && UIElements[i].y > active.y && DistanceTo(UIElements[i]) < foundDistance)
                     {
-                        if (UIElements[i].y > active.y && DistanceTo(UIElements[i]) < foundDistance)
-                        {
-                            found = i;
-                            foundDistance = DistanceTo(UIElements[i]);
-                        }
+                        found = i;
+                        foundDistance = DistanceTo(UIElements[i]);
                     }
-                    else if (direction == Direction.Left)
+                    else if (direction == Direction.Left && UIElements[i].x < active.x && DistanceTo(UIElements[i]) < foundDistance)
                     {
-                        if (UIElements[i].x < active.x && DistanceTo(UIElements[i]) < foundDistance)
-                        {
-                            found = i;
-                            foundDistance = DistanceTo(UIElements[i]);
-                        }
+                        found = i;
+                        foundDistance = DistanceTo(UIElements[i]);
                     }
-                    else if (direction == Direction.Right)
+                    else if (direction == Direction.Right && UIElements[i].x > active.x && DistanceTo(UIElements[i]) < foundDistance)
                     {
-                        if (UIElements[i].x > active.x && DistanceTo(UIElements[i]) < foundDistance)
-                        {
-                            found = i;
-                            foundDistance = DistanceTo(UIElements[i]);
-                        }
+                        found = i;
+                        foundDistance = DistanceTo(UIElements[i]);
                     }
                 }
             }
