@@ -136,7 +136,9 @@
         public Point GetHint(byte checkValue, FieldState fState)
         {
             Point returnHint = new Point();
-            
+            Point returnHint2 = new Point();
+            returnHint2.x = -1;
+
             for (sbyte y = 0; y < 3; y++)
             {
                 for (sbyte x = 0; x < 3; x++)
@@ -161,17 +163,18 @@
                                 if (returnHint.x != -1)
                                 {
                                     board[y, x] = FieldState.Blocked;
-                                    Point returnHint2 = GetHint(3, fState); // testen, ob es noch eine bessere, unschlagbare Position gibt
+                                    returnHint2.x = x;
+                                    returnHint2.y = y;
+                                    returnHint = GetHint(3, fState); // testen, ob es noch eine bessere, unschlagbare Position gibt
 
-                                    if (returnHint2.x != -1)
+                                    if (returnHint.x != -1)
                                     {
                                         board[y, x] = FieldState.Empty;
-                                        return returnHint2; // Gewinn mit 3. garantiert
+                                        return returnHint; // Gewinn mit 3. garantiert
                                     }
                                     else
                                     {
                                         board[y, x] = FieldState.Empty;
-                                        return returnHint; // Gewinn mit 3. möglich
                                     }
                                 }
                             }
@@ -179,7 +182,8 @@
                         board[y, x] = FieldState.Empty; // kein Gewinn möglich, Teststein wieder vom Feld löschen
                     }
                 }
-            }  
+            }
+            if (returnHint2.x != -1) return returnHint2;
             returnHint.x = -1; // kein Gewinn möglich
             return returnHint;
         }
