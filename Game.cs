@@ -133,11 +133,11 @@
             UIGame.PrintHint(-1, -1); // Rückgabewert -1 steht für "kein Hint vorhanden"
         }
 
-        public Point GetHint(byte checkValue, FieldState fState)
+        public Point GetHint(byte checkValue, FieldState fState, sbyte blockY = -1, sbyte blockX = -1)
         {
             Point returnHint = new Point();
-            Point returnHint2 = new Point();
-            returnHint2.x = -1;
+            Point firstHint = new Point();
+            firstHint.x = -1;
 
             for (sbyte y = 0; y < 3; y++)
             {
@@ -159,28 +159,27 @@
                             if (checkValue == 2) // es wurde auf 2 Steine getestet
                             {
                                 returnHint = GetHint(3, fState); // testen ob mit 3. Stein Gewinn möglich, Funktion ruft sich selbst auf
-                                //board[y, x] = FieldState.Empty; // 2. Teststein wieder vom Feld löschen
                                 if (returnHint.x != -1)
                                 {
-                                    //board[y, x] = fState;
-                                    returnHint2.x = x;
-                                    returnHint2.y = y;
-                                    returnHint = GetHint(3, fState); // testen, ob es noch eine bessere, unschlagbare Position gibt
-
-                                    board[y, x] = FieldState.Empty;
-
-                                    if (returnHint.x != -1)
-                                    {
-                                        return returnHint; // Gewinn mit 3. garantiert
-                                    }
+                                    firstHint = returnHint; // Werte speichern
                                 }
+                                board[firstHint.y, firstHint.x] = FieldState.Blocked;
+                                returnHint = GetHint(3, fState); // testen ob mit 3. Stein Gewinn möglich, Funktion ruft sich selbst auf
+                                if (returnHint.x != -1)
+                                {
+                                    board[firstHint.y, firstHint.x] = FieldState.Empty;
+                                    returnHint.x = x; // Werte x y merken
+                                    returnHint.y = y;
+                                    return returnHint; // Werte speichern
+                                }
+                                board[firstHint.y, firstHint.x] = FieldState.Empty;
                             }
                         }
-                        board[y, x] = FieldState.Empty; // kein Gewinn möglich, Teststein wieder vom Feld löschen
+                        board[y, x] = FieldState.Empty; // Teststein wieder vom Feld löschen
                     }
                 }
             }
-            if (returnHint2.x != -1) return returnHint2;
+            if (firstHint.x != -1) return firstHint;
             returnHint.x = -1; // kein Gewinn möglich
             return returnHint;
         }
