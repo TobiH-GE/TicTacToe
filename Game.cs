@@ -162,15 +162,15 @@
                                 if (returnHint.x != -1)
                                 {
                                     firstHint = returnHint; // Werte speichern
-                                }
-                                board[y, x] = FieldState.Blocked;
-                                returnHint = GetHint(3, fState); // testen, ob es noch eine bessere, unschlagbare Position gibt
-                                if (returnHint.x != -1)
-                                {
-                                    board[y, x] = FieldState.Empty;
-                                    returnHint.x = x;
-                                    returnHint.y = y;
-                                    return returnHint; // Gewinn mit 3. garantiert
+                                    board[y, x] = FieldState.Blocked;
+                                    returnHint = GetHint(3, fState); // testen, ob es noch eine bessere, unschlagbare Position gibt
+                                    if (returnHint.x != -1)
+                                    {
+                                        board[y, x] = FieldState.Empty;
+                                        returnHint.x = x;
+                                        returnHint.y = y;
+                                        return returnHint; // Gewinn mit 3. garantiert
+                                    }
                                 }
                             }
                         }
