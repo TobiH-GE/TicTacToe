@@ -246,8 +246,8 @@ namespace TicTacToe
         }
         public void StartTurn(Game game, Point input)
         {
-            sbyte.TryParse(UIElements[14].input, out input.x);
-            sbyte.TryParse(UIElements[15].input, out input.y);
+            sbyte.TryParse(UIElements[GetUIElementByName("X-Position")].input, out input.x);
+            sbyte.TryParse(UIElements[GetUIElementByName("Y-Position")].input, out input.y);
 
             if (game.Turn(input) == TurnResult.Invalid)
             {
