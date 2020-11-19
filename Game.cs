@@ -133,7 +133,7 @@
             UIGame.PrintHint(-1, -1); // Rückgabewert -1 steht für "kein Hint vorhanden"
         }
 
-        public Point GetHint(byte checkValue, FieldState fState, sbyte blockY = -1, sbyte blockX = -1)
+        public Point GetHint(byte checkValue, FieldState fState)
         {
             Point returnHint = new Point();
             Point firstHint = new Point();
@@ -163,16 +163,15 @@
                                 {
                                     firstHint = returnHint; // Werte speichern
                                 }
-                                board[firstHint.y, firstHint.x] = FieldState.Blocked;
-                                returnHint = GetHint(3, fState); // testen ob mit 3. Stein Gewinn möglich, Funktion ruft sich selbst auf
+                                board[y, x] = FieldState.Blocked;
+                                returnHint = GetHint(3, fState); // testen, ob es noch eine bessere, unschlagbare Position gibt
                                 if (returnHint.x != -1)
                                 {
-                                    board[firstHint.y, firstHint.x] = FieldState.Empty;
-                                    returnHint.x = x; // Werte x y merken
+                                    board[y, x] = FieldState.Empty;
+                                    returnHint.x = x;
                                     returnHint.y = y;
-                                    return returnHint; // Werte speichern
+                                    return returnHint; // Gewinn mit 3. garantiert
                                 }
-                                board[firstHint.y, firstHint.x] = FieldState.Empty;
                             }
                         }
                         board[y, x] = FieldState.Empty; // Teststein wieder vom Feld löschen
