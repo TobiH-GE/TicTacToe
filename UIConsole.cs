@@ -59,22 +59,23 @@ namespace TicTacToe
             Console.CursorVisible = false;
             game.status = Status.Started;
 
-            UIElements.Add(new UIText("Titel", "TicTacToe by TobiH ", 20, 0));
-            UIElements.Add(new UIText("Status", $"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 10, 2, true, (game.currentPlayerID ? pColor[0] : pColor[1])));
-            UIElements.Add(new UIText("", "     0       1       2", 15, 5));
-            UIElements.Add(new UIText("", " ╔═══════╦═══════╦═══════╗", 15, 6));
-            UIElements.Add(new UIText("", "0║\t║\t║\t║", 15, 7));
-            UIElements.Add(new UIText("", " ╠═══════╬═══════╬═══════╣", 15, 8));
-            UIElements.Add(new UIText("", "1║\t║\t║\t║", 15, 9));
-            UIElements.Add(new UIText("", " ╠═══════╬═══════╬═══════╣", 15, 10));
-            UIElements.Add(new UIText("", "2║\t║\t║\t║", 15, 11));
-            UIElements.Add(new UIText("", " ╚═══════╩═══════╩═══════╝", 15, 12));
-            UIElements.Add(new UIText("Info", "enter [0,1,2] or [H] for hint, [<>^v] for navigation and [ESC] to exit", 5, 15));
-            UIElements.Add(new UIText("Error", "", 20, 16));
-            UIElements.Add(new UIText("Hint", "", 5, 16));
+            UIElements.Add(new UILogo("Logo", "Logo.txt", 20, 0, 6, 72));
+            UIElements.Add(new UIText("Titel", "TicTacToe by TobiH ", 20, 7));
+            UIElements.Add(new UIText("Status", $"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 10, 9, true, (game.currentPlayerID ? pColor[0] : pColor[1])));
+            UIElements.Add(new UIText("", "     0       1       2", 15, 12));
+            UIElements.Add(new UIText("", " ╔═══════╦═══════╦═══════╗", 15, 13));
+            UIElements.Add(new UIText("", "0║\t║\t║\t║", 15, 14));
+            UIElements.Add(new UIText("", " ╠═══════╬═══════╬═══════╣", 15, 15));
+            UIElements.Add(new UIText("", "1║\t║\t║\t║", 15, 16));
+            UIElements.Add(new UIText("", " ╠═══════╬═══════╬═══════╣", 15, 17));
+            UIElements.Add(new UIText("", "2║\t║\t║\t║", 15, 18));
+            UIElements.Add(new UIText("", " ╚═══════╩═══════╩═══════╝", 15, 19));
+            UIElements.Add(new UIText("Info", "enter [0,1,2] or [H] for hint, [<>^v] for navigation and [ESC] to exit", 5, 21));
+            UIElements.Add(new UIText("Error", "", 20, 22));
+            UIElements.Add(new UIText("Hint", "", 5, 23));
             UIElements.Add(new UIText("HintSymbol", "", 25, 16));
-            UIElements.Add(new UIInput("X-Position", "X-Position", 5, 17, true, Next));
-            UIElements.Add(new UIInput("Y-Position", "Y-Position", 5, 18, true, () => { ActiveElement = GetUIElementByName("Ok"); return true; }));
+            UIElements.Add(new UIInput("X-Position", "X-Position", 5, 25, true, Next));
+            UIElements.Add(new UIInput("Y-Position", "Y-Position", 5, 26, true, () => { ActiveElement = GetUIElementByName("Ok"); return true; }));
 
             // Buttons für das Spielbrett
             for (byte y = 0; y <= 2; y++)
@@ -82,33 +83,26 @@ namespace TicTacToe
                 for (byte x = 0; x <= 2; x++)
                 {
                     byte x1 = new byte(); byte y1 = new byte(); x1 = x; y1 = y;
-                    UIElements.Add(new UIButton($"Button {x},{y}", " ", 20 + x * 8, 7 + y * 2, true, () => { Place(y1 ,x1) ; return true; }));
+                    UIElements.Add(new UIButton($"Button {x},{y}", " ", 20 + x * 8, 14 + y * 2, true, () => { Place(y1 ,x1) ; return true; }));
                 }
             }
 
-            // Debug - ein paar Buttons zum Test
-            UIElements.Add(new UIInput("","Test 1", 5, 20, true, Next));
-            UIElements.Add(new UIInput("","Test 2", 5, 21, true, Next));
-            UIElements.Add(new UIInput("","Test 3", 5, 22, true, Next));
-            UIElements.Add(new UIInput("","Test 4", 5, 23, true, Next));
-            //
-
-            UIElements.Add(new UIButton("Ok", "OK", 20, 26, true, Ok));
-            UIElements.Add(new UIButton("Exit", "Exit", 30, 26, true, Exit));
-            ActiveElement = 14;
+            UIElements.Add(new UIButton("Ok", "OK", 20, 28, true, Ok));
+            UIElements.Add(new UIButton("Exit", "Exit", 30, 28, true, Exit));
+            ActiveElement = 15;
         }
         public override void WaitForInput()
         {
             Draw();
 
             // Debug - Ausgabe von Infos
-            Console.SetCursorPosition(50, 1);
+            Console.SetCursorPosition(50, 24);
             Console.WriteLine(" " + FindNextUIElement(Direction.Up).ToString() + " ");
-            Console.SetCursorPosition(50, 3);
+            Console.SetCursorPosition(50, 26);
             Console.WriteLine(" " + FindNextUIElement(Direction.Down).ToString() + " ");
-            Console.SetCursorPosition(47, 2);
+            Console.SetCursorPosition(47, 25);
             Console.WriteLine(" " + FindNextUIElement(Direction.Left).ToString() + " ");
-            Console.SetCursorPosition(53, 2);
+            Console.SetCursorPosition(53, 25);
             Console.WriteLine(" " + FindNextUIElement(Direction.Right).ToString() + " ");
             //
 

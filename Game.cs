@@ -1,6 +1,6 @@
 ﻿namespace TicTacToe
 {
-    class Game
+    partial class Game
     {
         public FieldState[,] board = new FieldState[3, 3];
         public bool currentPlayerID = false;
@@ -15,7 +15,6 @@
             UIGame.game = this;
             UIGame.Start();         // UserInterface starten
         }
-
         public FieldState[,] getBoard()
         {
             return board;
