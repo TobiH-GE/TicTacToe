@@ -59,8 +59,8 @@ namespace TicTacToe
             Console.CursorVisible = false;
             game.status = Status.Started;
 
-            UIElements.Add(new UILogo("Logo", "Logo.txt", 20, 0, 6, 72));
-            UIElements.Add(new UIText("Titel", "TicTacToe by TobiH ", 20, 7));
+            UIElements.Add(new UILogo("Logo", "Logo.txt", 5, 1, 6, 72));
+            UIElements.Add(new UIText("Titel", "(c) by TobiH ", 78, 6));
             UIElements.Add(new UIText("Status", $"turn {game.turnNumber}, {game.playerNames[Convert.ToInt32(game.currentPlayerID)]} [{(game.currentPlayerID ? FieldState.X : FieldState.O)}] it's your turn!\n", 10, 9, true, (game.currentPlayerID ? pColor[0] : pColor[1])));
             UIElements.Add(new UIText("", "     0       1       2", 15, 12));
             UIElements.Add(new UIText("", " ╔═══════╦═══════╦═══════╗", 15, 13));
